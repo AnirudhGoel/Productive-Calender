@@ -217,6 +217,15 @@ input, textarea {
    color: #c1c1c1;  
 }
 
+#status {
+	width: 15%;
+	color: white;
+	text-align: center;
+	position: absolute;
+	bottom: 15px;
+	font-size: 1.4em;
+}
+
 @media only screen and (max-width: 750px) {
 	#left-bar {
 		display: none;

@@ -23,7 +23,9 @@ function setStartDate(date, month) {
 	$("#eventEndDate").val("2017-" + month + "-" + date);
 }
 
-function closeEveBox() {
+function closeEveBox(e) {
+	e.preventDefault();
+
 	$("#addEvent").hide();
 	$("#viewEvent").hide();
 }
@@ -41,6 +43,7 @@ function allDay() {
 function updateEvent(e) {
 	e.preventDefault();
 
+	var eventId = $("#eventId").val();
 	var eventName = $("#eventName").val();
 	var eventLocation = $("#eventLocation").val();
 	var eventStartDate = String($("#eventStartDate").val());
@@ -57,4 +60,10 @@ function updateEvent(e) {
 		var eventAllDay = 0;
 
 	console.log(eventName, eventLocation, eventStartDate, eventStartTime, eventAllDay);
+
+	$.getJSON("updateEvent/", {eventId: eventId, eventName: eventName, eventLocation: eventLocation, eventStartDate: eventStartDate, eventStartTime: eventStartTime, eventEndDate: eventEndDate, eventEndTime: eventEndTime, eventAllDay: eventAllDay, eventDescription: eventDescription}, function(data) {
+		console.log(data);
+		$("#status").text(data["result"]);
+		$("#addEvent").hide();
+	});
 }

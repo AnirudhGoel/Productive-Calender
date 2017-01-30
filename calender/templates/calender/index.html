@@ -22,6 +22,7 @@
 			<br><br><br><br><br><br><br><br>
 			<span class="weather-heading">Weather</span>
 			<div id="current-weather"></div>
+			<div id="status"></div>
 		</div>
 		<div id="right-area">
 			<div id="menu-bar">
@@ -41,13 +42,13 @@
 				<span class="eveBoxClose" onclick="closeEveBox();">x</span>
 				<div class="form-container">
 					<form id="addEventForm" onsubmit="updateEvent(event);">
-						<!-- <input type="text" id="eventId" value="" hidden> -->
+						<input type="text" id="eventId" value="" hidden>
 						<br>
 						<input type="text" placeholder="Event Name" id="eventName" value="" required>
 						<input type="text" placeholder="Location" id="eventLocation" value="">
 						<br>
 						<strong>&nbsp;&nbsp;Starts</strong><br>
-						<input type="date" id="eventStartDate" disabled="true">
+						<input type="date" id="eventStartDate" disabled="true" required>
 						<input type="time" id="eventStartTime" disabled="true">
 						<br>
 						<strong>&nbsp;&nbsp;Ends</strong><br>
@@ -59,7 +60,7 @@
 						<br><br>
 						<strong>&nbsp;&nbsp;Description</strong><br>
 						<textarea id="eventDescription" cols="28" rows="6"></textarea>
-						<button id="eventCancelButton" onclick="closeEveBox();"><strong>Cancel</strong></button>
+						<button id="eventCancelButton" onclick="closeEveBox(event);"><strong>Cancel</strong></button>
 						<input type="submit" id="eventSaveButton" value="Save">
 						<br><br>
 					</form>
