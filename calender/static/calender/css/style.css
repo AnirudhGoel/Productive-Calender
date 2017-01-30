@@ -1,0 +1,231 @@
+ @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400');
+
+body {
+	margin: 0;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 400;
+}
+#left-bar {
+	background-color: #2ed39e;
+	width: 15%;
+	min-height: 100vh;
+	float: left;
+}
+
+#right-area {
+	width: 85%;
+	min-height: 100vh;
+	float: right;
+}
+
+#menu-bar {
+	color: #2ed39e;
+	padding-top: 7px;
+	height: 30px;
+	text-align: center;
+	border-bottom: 1px solid #e5e6e7;
+}
+
+.fa-chevron-up,
+.fa-chevron-down {
+	font-size: 0.8em;
+	cursor: pointer;
+}
+
+.icons-right {
+	position: absolute;
+	right: 0;
+	font-size: 1.1em;
+}
+
+#clock {
+	text-align: center;
+	color: white;
+	font-weight: 300;
+}
+
+#hourmin {
+	font-size: 3.7em;
+}
+
+.container {
+	height: calc(100vh - 38px);
+	width: calc(100% - 20px);
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+table {
+	border: none;
+	border-bottom: 1px solid #e5e6e7;
+	height: 80%;
+	width: 100%;
+	color: #b3b3b3;
+	border-collapse: collapse;
+}
+
+tr,
+td {
+	margin: 0;
+	padding: 5px 0px 0px 5px;
+	border: 1px solid #e5e6e7;
+	vertical-align: top;
+}
+
+td {
+	width: 200px;
+}
+
+.table-header {
+	border-top: none;
+	height: 40px;
+	vertical-align: bottom;
+	text-align: left;
+	font-size: 0.8em;
+	border-right: none;
+	border-left: none;
+}
+
+.weather {
+	text-align: right;
+	cursor: default;
+	width: 80%;
+	display: inline-block;
+	font-size: 0.8em;
+	color: #2ed39e;
+}
+
+.currentday {
+	background-color: #2ed39e;
+	color: white;
+}
+
+.currentday .weather {
+	color: white;
+}
+
+#current-weather {
+	background-color: #2bc493;
+	color: white;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.current-weather-big {
+	width: 100%;
+	padding-left: 30px;
+	text-align: center;
+	font-size: 2.5em;
+	font-weight: 300;
+}
+
+.weather-heading {
+	color: white;
+	padding-left: 30px;
+	font-size: 0.8em;
+	font-weight: 400;
+}
+
+#addEvent {
+	border: solid 1px #ff8787;
+	border-radius: 3px;
+	width: 275px;
+	display: none;
+	z-index: 100;
+	background-color: white;
+}
+
+.eveBoxClose {
+	position: absolute;
+	top: 3px;
+	right: 9px;
+	cursor: pointer;
+	color: #b3b3b3;
+}
+
+.eveBoxDate {
+	color: #ff8787;
+	display: inline-block;
+	font-weight: bold;
+	font-size: 0.9em;
+	margin-top: 11px;
+	margin-left: 15px;
+}
+
+.form-container {
+	padding-left: 5%;
+	color: #c1c1c1;
+	font-size: 0.8em;
+}
+
+input, textarea {
+	border: 1px solid #c1c1c1;
+	color: #777777;
+	padding: 2px 0px 2px 5px;
+	border-radius: 3px;
+}
+
+#eventName {
+	font-size: 1.1em;
+	width: 90%;
+	height: 25px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+#eventLocation {
+	width: 90%;
+	height: 18px;
+	margin-bottom: 7px;
+}
+#eventStartDate, #eventStartTime, #eventEndDate, #eventEndTime {
+	margin-bottom: 10px;
+}
+
+#eventCancelButton, #eventSaveButton {
+	margin-top: 10px;
+	font-size: 1.1em;
+	width: 90px;
+	height: 30px;
+	border-radius: 3px;
+	background-color: #e5e6e7;
+	color: #777777;
+	border: none;
+}
+
+#eventSaveButton {
+	position: absolute;
+	background-color: #ff8787;
+	color: White;
+	font-weight: bold;
+	right: 15px;
+}
+
+::-webkit-input-placeholder {
+   color: #c1c1c1;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: #c1c1c1;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: #c1c1c1;  
+}
+
+:-ms-input-placeholder {  
+   color: #c1c1c1;  
+}
+
+@media only screen and (max-width: 750px) {
+	#left-bar {
+		display: none;
+	}
+	#right-area {
+		float: none;
+	}
+	.container {
+		padding: 0;
+		width: calc(100% - 40px);
+	}
+}
