@@ -11,6 +11,15 @@ function td_click(event) {
 	if (td_id == "") {
 		td_id = event.target.closest("td").id;
 	}
+
+	$("#eventName").val("");
+	$("#eventLocation").val("");
+	$("#eventStartTime").val("");
+	$("#eventEndTime").val("");
+	$("#eventDescription").val("");
+	$("#eventStartDate, #eventStartTime, #eventEndDate, #eventEndTime").attr("disabled", true);
+	$("#eventAllDay").removeClass("fa-square-o").addClass("fa-check-square-o");
+
 	var td_date = parseInt(td_id);
 	var td_month = td_id.substr(td_date.toString().length);
 	setStartEndDate(td_date, td_month);
@@ -107,7 +116,7 @@ function event_rectangle_clicked(event) {
 	$("#viewEveBoxEveId").text(event_id);
 	// console.log(event);
 	$.getJSON("viewEvent/", {eventId: event_id}, function(data) {
-		// console.log(data);
+		console.log(data);
 		$(".viewTitle").text(data["event_name"]);
 		$(".viewLocation").text(data["location"]);
 		
@@ -119,7 +128,7 @@ function event_rectangle_clicked(event) {
 		var day_num = start_date.getDay();
 		var day = day_name[day_num];
 		var date = parseInt(data["start_date"].substr(8,2));
-		var month = month_names[parseInt(data["start_date"].substr(5,2))];
+		var month = month_names[parseInt(data["start_date"].substr(5,2)) - 1];
 
 		if (data["all_day"] == true || data["start_time"] == "") {
 			$(".viewDay").text(day + ", " + month + " " + date);
@@ -152,13 +161,13 @@ function editEve(event) {
 	var event_id = $("#viewEveBoxEveId").text();
 
 	$.getJSON("viewEvent/", {eventId: event_id}, function(data) {
-		$("#eventId").attr("value", event_id);
-		$("#eventName").attr("value", data["event_name"]);
-		$("#eventLocation").attr("value", data["location"]);
-		$("#eventStartDate").attr("value", data["start_date"]);
-		$("#eventStartTime").attr("value", data["start_time"]);
-		$("#eventEndDate").attr("value", data["end_date"]);
-		$("#eventEndTime").attr("value", data["end_time"]);
+		$("#eventId").val(event_id);
+		$("#eventName").val(data["event_name"]);
+		$("#eventLocation").val(data["location"]);
+		$("#eventStartDate").val(data["start_date"]);
+		$("#eventStartTime").val(data["start_time"]);
+		$("#eventEndDate").val(data["end_date"]);
+		$("#eventEndTime").val(data["end_time"]);
 		$("#eventDescription").val(data["description"]);
 		if (data["all_day"] == true) {
 			$("#eventStartDate, #eventStartTime, #eventEndDate, #eventEndTime").attr("disabled", true);
