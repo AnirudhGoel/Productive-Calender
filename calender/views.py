@@ -29,10 +29,16 @@ def updateEvent(request):
 	end_time = request.GET['eventEndTime']
 	all_day = request.GET['eventAllDay']
 	description = request.GET.get('eventDescription', "")
+	flag = 0
+	id_start = 1
 
 	if event_id == "":
-		current_event_id = Calender.objects.filter(start_date = start_date).count()
-		new_event_id = str(current_event_id + 1) + "-eve-" + start_date
+		while flag == 0:
+			if Calender.objects.filter(event_id = (str(id_start) + "-eve-" + start_date)).count() == 1:
+				id_start += 1
+			else:
+				new_event_id = str(id_start) + "-eve-" + start_date
+				flag = 1
 	else:
 		new_event_id = event_id
 
@@ -42,6 +48,9 @@ def updateEvent(request):
 		result = "Saved Successfully"
 	except Exception as e:
 		result = e
-		
 
 	return HttpResponse(json.dumps({"result": result, "event_id": new_event_id}), content_type = "application/json")
+
+def allEvents(request):
+	q = Calender.objects.all()
+	return HttpResponse(q)

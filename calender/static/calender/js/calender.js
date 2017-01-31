@@ -73,10 +73,9 @@ function calender(month) {
         // that cell a different color using CSS.
 
         if (i == day && month == cmonth) {
-            padding += "<td class='currentday' id='" + i + monthNames[month] + "'>" + i + "</td>";
+            padding += "<td onclick='td_click(event);' class='currentday' id='" + i + monthNames[month] + "'><span class='date'>" + i + "</span></td>";
         } else {
-            padding += "<td id='" + i + monthNames[month] + "'>" + i + "</td>";
-
+            padding += "<td onclick='td_click(event);'  id='" + i + monthNames[month] + "'><span class='date'>" + i + "</span></td>";
         }
 
         tempweekday2++;
@@ -110,6 +109,7 @@ function nextmonth() {
     // console.log(nextmon);
     calender(nextmon);
     calculateWeather();
+    refreshAllEvents();
 }
 
 function prevmonth() {
@@ -121,6 +121,7 @@ function prevmonth() {
     // console.log(prevmon);
     calender(prevmon);
     calculateWeather();
+    refreshAllEvents();
 }
 
 if (window.addEventListener) {
@@ -129,10 +130,12 @@ if (window.addEventListener) {
     calender(cmonth);
     calculateWeather();
     currentWeather();
+    refreshAllEvents();
 } else if (window.attachEvent) {
     var current = new Date();
     cmonth = current.getMonth();
     calender(cmonth);
     calculateWeather();
     currentWeather();
+    refreshAllEvents();
 }

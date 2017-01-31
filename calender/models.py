@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Calender(models.Model):
-	event_id = models.CharField(max_length=40)
+	event_id = models.CharField(max_length=40, primary_key=True)
 	event_name = models.CharField(max_length=200)
 	location = models.CharField(max_length=200)
 	start_date = models.CharField(max_length=50)
@@ -11,3 +11,5 @@ class Calender(models.Model):
 	end_time = models.CharField(max_length=50)
 	all_day = models.BooleanField()
 	description = models.TextField()
+	def __str__(self):
+		return self.event_id + "/" + self.end_date + " "

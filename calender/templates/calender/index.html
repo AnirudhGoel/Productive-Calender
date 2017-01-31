@@ -26,8 +26,8 @@
 		</div>
 		<div id="right-area">
 			<div id="menu-bar">
-				<i class="fa fa-chevron-up" onclick="nextmonth();"></i>&nbsp;
-				<i class="fa fa-chevron-down" onclick="prevmonth();"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+				<i class="fa fa-chevron-up" onclick="prevmonth();"></i>&nbsp;
+				<i class="fa fa-chevron-down" onclick="nextmonth();"></i>&nbsp;&nbsp;&nbsp;&nbsp;
 				<span class="month"></span> <span class="year"></span>
 				<span class="icons-right">
 					<i class="fa fa-refresh"></i>&nbsp;&nbsp;
@@ -39,7 +39,7 @@
 
 			<div id="addEvent">
 				<span class="eveBoxDate"></span>
-				<span class="eveBoxClose" onclick="closeEveBox();">x</span>
+				<span class="eveBoxClose" onclick="closeEveBox(event);">x</span>
 				<div class="form-container">
 					<form id="addEventForm" onsubmit="updateEvent(event);">
 						<input type="text" id="eventId" value="" hidden>
@@ -52,12 +52,13 @@
 						<input type="time" id="eventStartTime" disabled="true">
 						<br>
 						<strong>&nbsp;&nbsp;Ends</strong><br>
-					  	<input type="date" id="eventEndDate" disabled="true">
+					  	<input type="date" id="eventEndDate" disabled="true" required>
 						<input type="time" id="eventEndTime" disabled="true">
 						<br>
 						<i class="fa fa-check-square-o" id="eventAllDay" onclick="allDay();"></i>
 						&nbsp;&nbsp;All Day
 						<br><br>
+						<div id="error"></div>
 						<strong>&nbsp;&nbsp;Description</strong><br>
 						<textarea id="eventDescription" cols="28" rows="6"></textarea>
 						<button id="eventCancelButton" onclick="closeEveBox(event);"><strong>Cancel</strong></button>
@@ -72,9 +73,9 @@
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="{% static 'calender/js/weather.js' %}"></script>
+		<script src="{% static 'calender/js/event.js' %}"></script>
 		<script src="{% static 'calender/js/calender.js' %}"></script>
 		<script src="{% static 'calender/js/clock.js' %}"></script>
-		<script src="{% static 'calender/js/event.js' %}"></script>
 	</body>
 </html>
 

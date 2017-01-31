@@ -201,6 +201,11 @@ input, textarea {
 	right: 15px;
 }
 
+#error {
+	color: red;
+	font-weight: bold;
+}
+
 ::-webkit-input-placeholder {
    color: #c1c1c1;
 }
@@ -224,6 +229,29 @@ input, textarea {
 	position: absolute;
 	bottom: 15px;
 	font-size: 1.4em;
+}
+
+.event-rectangles {
+	border: 3px solid #2ed39e;
+	border-radius: 3px;
+	margin-bottom: 3px;
+	height: 20px;
+	padding-left: 10px;
+	font-size: 0.8em;
+}
+
+.currentday .event-rectangles{
+	background-color: White;
+	border-radius: 3px;
+	color: #2ed39e;
+	margin-bottom: 3px;
+	height: 20px;
+	padding-left: 10px;
+	font-size: 0.8em;
+}
+
+.joint-event {
+	border: 3px solid lightblue;
 }
 
 @media only screen and (max-width: 750px) {

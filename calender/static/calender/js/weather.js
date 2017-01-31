@@ -57,7 +57,7 @@ function publishWeather(date, month, min_temp, max_temp, icon) {
     // console.log(Math.round(max_temp));
     min_temp = Math.round(min_temp);
     max_temp = Math.round(max_temp);
-    $("#" + date + month).append("<span class='weather'><i class='fa " + icon + "'></i>" + max_temp + "&deg;/<span style='font-size: 0.7em;'>" + min_temp + "&deg;</span></span>");
+    $("<span class='weather'><i class='fa " + icon + "'></i>" + max_temp + "&deg;/<span style='font-size: 0.7em;'>" + min_temp + "&deg;</span></span>").insertAfter("#" + date + month + " .date")
 }
 
 function currentWeather() {
