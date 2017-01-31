@@ -261,6 +261,12 @@ textarea {
 	font-size: 0.8em;
 }
 
+.event-rectangles:hover {
+	background-color: #ff8787;
+	color: white;
+	border-color: #ff8787;
+}
+
 #viewEvent {
 	padding-left: 15px;
 	padding-right: 15px;
