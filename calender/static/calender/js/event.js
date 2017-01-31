@@ -68,6 +68,8 @@ function updateEvent(e) {
 
 	if (eventStartDate > eventEndDate) {
 		$("#error").text("End date cannot be earlier than start date");
+	} else if (eventStartDate.substr(0, 7) != eventEndDate.substr(0, 7)) {
+		$("#error").text("Event cannot stretch across months");
 	} else {
 		// console.log(eventName, eventLocation, eventStartDate, eventStartTime, eventAllDay);
 
