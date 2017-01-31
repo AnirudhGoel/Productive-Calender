@@ -1,27 +1,24 @@
 var month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var month_number = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+var day_name = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-
-function event_rectangle_clicked(event) {
-	event.stopPropagation();
-};
 
 function td_click(event) {
 	event.stopPropagation();
+	closeEveBox(event);
 
 	var td_id = event.target.id;
 	if (td_id == "") {
 		td_id = event.target.closest("td").id;
 	}
-	// $("#eventId").attr("value", td_id);
 	var td_date = parseInt(td_id);
 	var td_month = td_id.substr(td_date.toString().length);
-	setStartDate(td_date, td_month);
+	setStartEndDate(td_date, td_month);
 	$(".eveBoxDate").text(td_date + " " + td_month + " " + "2017");
 	$("#addEvent").show().css({position:"absolute", top:event.pageY, left: event.pageX});
 };
 
-function setStartDate(date, month) {
+function setStartEndDate(date, month) {
 	if (date < 10) {date = "0" + date};
 	month = month_number[month_names.indexOf(month)];
 
@@ -57,7 +54,7 @@ function updateEvent(e) {
 	var eventStartTime = String($("#eventStartTime").val());
 	var eventEndDate = String($("#eventEndDate").val());
 	var eventEndTime = String($("#eventEndTime").val());
-	var eventDescription = $("eventDescription").val();
+	var eventDescription = $("#eventDescription").val();
 	if ($(".fa-check-square-o").length) {
 		var eventAllDay = 1;
 		eventStartTime = "";
@@ -99,6 +96,86 @@ function updateEvent(e) {
 		});
 	}
 }
+
+
+function event_rectangle_clicked(event) {
+	event.stopPropagation();
+	closeEveBox(event);
+
+	$(".viewEveBoxName").text(event.srcElement.innerHTML);
+	var event_id = event.target.id;
+	$("#viewEveBoxEveId").text(event_id);
+	// console.log(event);
+	$.getJSON("viewEvent/", {eventId: event_id}, function(data) {
+		// console.log(data);
+		$(".viewTitle").text(data["event_name"]);
+		$(".viewLocation").text(data["location"]);
+		
+		if (data["description"] != "") {
+			$(".viewDescription").text(data["description"]);
+		}
+		
+		var start_date = new Date(data["start_date"].replace(/-/g,'/'));
+		var day_num = start_date.getDay();
+		var day = day_name[day_num];
+		var date = parseInt(data["start_date"].substr(8,2));
+		var month = month_names[parseInt(data["start_date"].substr(5,2))];
+
+		if (data["all_day"] == true || data["start_time"] == "") {
+			$(".viewDay").text(day + ", " + month + " " + date);
+		} else {
+			$(".viewDay").text(data["start_time"] + ", " + day + ", " + month + " " + date);
+		}
+
+		$("#viewEvent").show().css({position:"absolute", top:event.pageY, left: event.pageX});
+	});
+
+}
+
+function deleteEve(event) {
+	event.preventDefault();
+	event.stopPropagation();
+
+	var event_id = $("#viewEveBoxEveId").text();
+
+	$.getJSON("deleteEvent/", {eventId: event_id}, function(data) {
+		$("#status").text(data["result"]);
+		closeEveBox(event);
+		refreshAllEvents();
+	});
+}
+
+function editEve(event) {
+	event.preventDefault();
+	event.stopPropagation();
+
+	var event_id = $("#viewEveBoxEveId").text();
+
+	$.getJSON("viewEvent/", {eventId: event_id}, function(data) {
+		$("#eventId").attr("value", event_id);
+		$("#eventName").attr("value", data["event_name"]);
+		$("#eventLocation").attr("value", data["location"]);
+		$("#eventStartDate").attr("value", data["start_date"]);
+		$("#eventStartTime").attr("value", data["start_time"]);
+		$("#eventEndDate").attr("value", data["end_date"]);
+		$("#eventEndTime").attr("value", data["end_time"]);
+		$("#eventDescription").val(data["description"]);
+		if (data["all_day"] == true) {
+			$("#eventStartDate, #eventStartTime, #eventEndDate, #eventEndTime").attr("disabled", true);
+			$("#eventAllDay").removeClass("fa-square-o").addClass("fa-check-square-o");
+		} else {
+			$("#eventStartDate, #eventStartTime, #eventEndDate, #eventEndTime").attr("disabled", false);
+			$("#eventAllDay").removeClass("fa-check-square-o").addClass("fa-square-o");
+		}
+		var date = parseInt(data["start_date"].substr(8,2));
+		var month = month_names[parseInt(data["start_date"].substr(5,2)) - 1];
+		$(".eveBoxDate").text(date + " " + month + " " + "2017");
+
+		closeEveBox(event);
+		$("#addEvent").show().css({position: "absolute", top: (event.pageY - 375), left: (event.pageX - 160)});
+	});
+}
+
 
 function refreshAllEvents() {
 	$(".event-rectangles").remove();

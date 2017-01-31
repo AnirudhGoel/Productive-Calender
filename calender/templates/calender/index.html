@@ -45,7 +45,7 @@
 						<input type="text" id="eventId" value="" hidden>
 						<br>
 						<input type="text" placeholder="Event Name" id="eventName" value="" required>
-						<input type="text" placeholder="Location" id="eventLocation" value="">
+						<input type="text" placeholder="Location" id="eventLocation" value="" required>
 						<br>
 						<strong>&nbsp;&nbsp;Starts</strong><br>
 						<input type="date" id="eventStartDate" disabled="true" required>
@@ -68,7 +68,24 @@
 				</div>
 			</div>
 
-			<!-- <div id="viewEvent"> you got me </div> -->
+			<div id="viewEvent">
+				<span class="viewEveBoxName"></span>
+				<span id="viewEveBoxEveId"></span>
+				<span class="eveBoxClose" onclick="closeEveBox(event);">x</span>
+				<br><br>
+				<div class="viewEveLabel">Title</div>
+				<div class="viewTitle"></div><br>
+				<div class="viewEveLabel">Where</div>
+				<div class="viewLocation"></div><br>
+				<div class="viewEveLabel">When</div>
+				<div class="viewDay"></div><br>
+				<div class="viewEveLabel">Description</div>
+				<div class="viewDescription">No Description</div>
+				<br><br><br><br>
+				<button id="eventDeleteButton" onclick="deleteEve(event);"><strong>Delete</strong></button>
+				<button id="eventEditButton" onclick="editEve(event);"><strong>Edit</strong></button>
+				<br><br>
+			</div>
 		</div>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

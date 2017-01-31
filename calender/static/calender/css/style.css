@@ -58,7 +58,7 @@ body {
 table {
 	border: none;
 	border-bottom: 1px solid #e5e6e7;
-	height: 80%;
+	min-height: 80%;
 	width: 100%;
 	color: #b3b3b3;
 	border-collapse: collapse;
@@ -73,6 +73,7 @@ td {
 }
 
 td {
+	height: 100px;
 	width: 200px;
 }
 
@@ -182,6 +183,11 @@ input, textarea {
 	margin-bottom: 10px;
 }
 
+textarea {
+	font-size: 1.1em;
+	padding: 5px 5px 5px 5px;
+}
+
 #eventCancelButton, #eventSaveButton {
 	margin-top: 10px;
 	font-size: 1.1em;
@@ -232,6 +238,7 @@ input, textarea {
 }
 
 .event-rectangles {
+	cursor: default;
 	border: 3px solid #2ed39e;
 	border-radius: 3px;
 	margin-bottom: 3px;
@@ -252,6 +259,57 @@ input, textarea {
 	height: 20px;
 	padding-left: 10px;
 	font-size: 0.8em;
+}
+
+#viewEvent {
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 22px;
+	border: solid 1px #ff8787;
+	border-radius: 3px;
+	width: 230px;
+	display: none;
+	z-index: 100;
+	background-color: white;
+}
+
+.viewEveBoxName {
+	font-size: 0.9em;
+	color: #ff8787;
+	font-weight: bold;
+}
+
+.viewEveLabel {
+	font-size: 0.7em;
+	color: #c1c1c1;
+	font-weight: bold;
+}
+
+.viewLocation, .viewDay, .viewDescription, .viewTitle {
+	font-size: 0.7em;
+	font-weight: bold;
+	color: #777777;
+}
+
+#eventDeleteButton, #eventEditButton {
+	width: 90px;
+	height: 30px;
+	border-radius: 3px;
+	background-color: #e5e6e7;
+	color: #777777;
+	border: none;
+}
+
+#eventEditButton {
+	position: absolute;
+	background-color: #ff8787;
+	color: White;
+	font-weight: bold;
+	right: 15px;
+}
+
+#viewEveBoxEveId {
+	display: none;
 }
 
 @media only screen and (max-width: 750px) {
