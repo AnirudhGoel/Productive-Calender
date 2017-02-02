@@ -105,3 +105,11 @@ def deleteEvent(request):
 	
 	return HttpResponse(json.dumps({"result": result, "event_id": event_id}), content_type = "application/json")
 
+def forceDelete(request):
+	event_id = request.GET['eventId']
+
+	try:
+		Calender.objects.filter(event_id = event_id).delete()
+		result = "Deleted Successfully"
+	except Exception as e:
+		result = e

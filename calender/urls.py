@@ -10,5 +10,6 @@ urlpatterns = [
 	url(r'^updateEvent/$', views.updateEvent, name='updateEvent'),
 	url(r'^viewEvent/$', views.viewEvent, name='viewEvent'),
 	url(r'^deleteEvent/$', views.deleteEvent, name='deleteEvent'),
+	url(r'^forceDelete/$', views.forceDelete, name='forceDelete'),
 	url(r'^allEvents/$', views.allEvents, name='allEvents'),
 ]
