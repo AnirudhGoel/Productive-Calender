@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Calender(models.Model):
@@ -12,6 +13,5 @@ class Calender(models.Model):
 	end_time = models.CharField(max_length=50, default="")
 	all_day = models.BooleanField()
 	description = models.TextField(default="")
+	updated = models.DateTimeField(default=(timezone.now() +timezone.timedelta(minutes=330)))
 	deleted = models.BooleanField(default=False)
-	# def __str__(self):
-	# 	return self.event_id + "/" + self.end_date + " "

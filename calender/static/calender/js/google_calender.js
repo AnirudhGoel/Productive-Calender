@@ -54,22 +54,23 @@ function listUpcomingEvents() {
     'showDeleted': false,
     'singleEvents': true,
     'orderBy': 'startTime'
-  }).then(function(response) {
-    console.log(response);
-    var events = response.result.items;
-    // appendPre('Upcoming events:');
+  }).then(function(google_response) {
+    $.getJSON("alleventsj/", function(db_response) {
+        console.log(db_response, google_response);
+        // var events = response.result.items;
 
-    // if (events.length > 0) {
-    //   for (i = 0; i < events.length; i++) {
-    //     var event = events[i];
-    //     var when = event.start.dateTime;
-    //     if (!when) {
-    //       when = event.start.date;
-    //     }
-    //     // appendPre(event.summary + ' (' + when + ')')
-    //   }
-    // } else {
-    //   // appendPre('No upcoming events found.');
-    // }
+        // if (events.length > 0) {
+        //   for (i = 0; i < events.length; i++) {
+        //     var event = events[i];
+        //     var when = event.start.dateTime;
+        //     if (!when) {
+        //       when = event.start.date;
+        //     }
+        //     // appendPre(event.summary + ' (' + when + ')')
+        //   }
+        // } else {
+        //   // appendPre('No upcoming events found.');
+        // }
+    });
   });
 }
