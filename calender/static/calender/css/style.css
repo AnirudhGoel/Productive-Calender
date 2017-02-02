@@ -1,4 +1,4 @@
- @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400');
 
 body {
 	margin: 0;
@@ -261,10 +261,16 @@ textarea {
 	font-size: 0.8em;
 }
 
-.event-rectangles:hover {
+/*.event-rectangles:hover {
 	background-color: #ff8787;
 	color: white;
 	border-color: #ff8787;
+}*/
+
+.event-rectangle-select {
+	background-color: #ff8787 !important;
+	color: white !important;
+	border-color: #ff8787 !important;
 }
 
 #viewEvent {

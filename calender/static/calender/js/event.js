@@ -38,6 +38,7 @@ function setStartEndDate(date, month) {
 function closeEveBox(e) {
 	e.preventDefault();
 
+	$(".event-rectangles").removeClass("event-rectangle-select");
 	$("#addEvent").hide();
 	$("#viewEvent").hide();
 }
@@ -84,24 +85,6 @@ function updateEvent(e) {
 			$("#status").text(data["result"]);
 			$("#addEvent").hide();
 			refreshAllEvents();
-			// if (eventStartDate == eventEndDate) {
-			// 	eventDivId = parseInt(eventStartDate.substr(8, 2)) + month_names[month_number.indexOf(eventStartDate.substr(5, 2))];
-			// 	$("#" + eventDivId).append("<div onclick='event_rectangle_clicked(event);' class='event-rectangles' id='" + data["event_id"] +"'>Event " + data["event_id"].split("-")[0] + "</div>");
-			// } else {
-			// 	var Date1 = eventStartDate;
-			// 	var Date2 = eventEndDate;
-			// 	Date1 = new Date(Date1.replace(/-/g,'/'));
-			// 	Date2 = new Date(Date2.replace(/-/g,'/'));
-			// 	var timeDiff = Math.abs(Date2.getTime() - Date1.getTime());
-			// 	var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-			// 	console.log(diffDays);
-
-			// 	for (var j = 0; j <= diffDays; j++) {
-			// 		eventDivId = parseInt(eventStartDate.substr(8, 2)) + j + month_names[month_number.indexOf(eventStartDate.substr(5, 2))];
-			// 		console.log(eventDivId);
-			// 		$("#" + eventDivId).append("<div onclick='event_rectangle_clicked(event);' class='event-rectangles joint-event' id='" + eventId +"'>Event " + eventId.split("-")[0] + "</div>");
-			// 	}
-			// }
 		});
 	}
 }
@@ -113,6 +96,7 @@ function event_rectangle_clicked(event) {
 
 	$(".viewEveBoxName").text(event.srcElement.innerHTML);
 	var event_id = event.target.id;
+	$("[id=" + event_id + "]").addClass("event-rectangle-select");
 	$("#viewEveBoxEveId").text(event_id);
 	// console.log(event);
 	$.getJSON("viewEvent/", {eventId: event_id}, function(data) {
@@ -181,6 +165,7 @@ function editEve(event) {
 		$(".eveBoxDate").text(date + " " + month + " " + "2017");
 
 		closeEveBox(event);
+		$("#" + event_id).addClass("event-rectangle-select");
 		$("#addEvent").show().css({position: "absolute", top: (event.pageY - 375), left: (event.pageX - 160)});
 	});
 }
@@ -195,10 +180,6 @@ function refreshAllEvents() {
 		for (var i = 0; i < event_id_end_date.length - 1; i++) {
 			event_list.push({event_id: event_id_end_date[i].split("/")[0], end_date: event_id_end_date[i].split("/")[1]});
 		}
-
-		// event_list.sort(function(a, b) {
-		// 	return ((a.event_id < b.event_id) ? -1 : ((a.event_id == b.event_id) ? 0 : 1));
-		// });
 
 		// console.log(data);
 		// console.log(event_list);
@@ -218,11 +199,11 @@ function refreshAllEvents() {
 				Date2 = new Date(Date2.replace(/-/g,'/'));
 				var timeDiff = Math.abs(Date2.getTime() - Date1.getTime());
 				var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-				console.log(diffDays);
+				// console.log(diffDays);
 
 				for (var j = 0; j <= diffDays; j++) {
 					eventDivId = parseInt(eventStartDate.substr(8, 2)) + j + month_names[month_number.indexOf(eventStartDate.substr(5, 2))];
-					console.log(eventDivId);
+					// console.log(eventDivId);
 					$("#" + eventDivId).append("<div onclick='event_rectangle_clicked(event);' class='event-rectangles joint-event' id='" + eventId +"'>Event " + (i + 1) + "</div>");
 				}
 			}

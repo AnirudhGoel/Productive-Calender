@@ -5,19 +5,16 @@ import json
 from .models import Calender
 
 
+
 def index(request):
-	# context = {'latest_question_list': latest_question_list}
 	context = ""
 	return render(request, 'calender/index.html', context)
 
-# def detail(request, question_id):
-#     question = get_object_or_404(Question, pk=question_id)
-#     return render(request, 'polls/detail.html', {'question': question})
 
-def sync(request):
-	# context = {'latest_question_list': latest_question_list}
+def google_cale(request):
 	context = ""
-	return render(request, 'calender/sync.html', context)
+	return render(request, 'calender/google_cale.html', context)
+
 
 def updateEvent(request):
 	event_id = request.GET['eventId']
@@ -58,8 +55,25 @@ def updateEvent(request):
 	return HttpResponse(json.dumps({"result": result, "event_id": new_event_id}), content_type = "application/json")
 
 def allEvents(request):
-	q = Calender.objects.all()
-	return HttpResponse(q)
+	# Returns all elements in string form where deleted = false
+	response = ""
+	q = Calender.objects.filter(deleted = False).values()
+	for x in range(0,q.count()):
+		response += q[x]["event_id"] + "/" + q[x]["end_date"] + " "
+	return HttpResponse(response)
+
+def allEventsJSON(request):
+	# Returns all elements in JSON form
+	response = {}
+	q = Calender.objects.values()
+	for x in range(0,q.count()):
+		response[x] = {}
+		response[x]["event_id"] = q[x]["event_id"]
+		response[x]["event_name"] = q[x]["event_name"]
+		response[x]["location"] = q[x]["location"]
+		response[x]["start_date"] = q[x]["start_date"]
+		response[x]["start_time"] = q[x]["start_time"]
+	return HttpResponse(json.dumps({"response": response}))
 
 def viewEvent(request):
 	event_id = request.GET['eventId']
@@ -69,11 +83,17 @@ def viewEvent(request):
 
 def deleteEvent(request):
 	event_id = request.GET['eventId']
+	q = Calender.objects.get(event_id = event_id)
 
-	try:
-		Calender.objects.filter(event_id = event_id).delete()
+	if q.event_google_id == "":
+		try:
+			Calender.objects.filter(event_id = event_id).delete()
+			result = "Deleted Successfully"
+		except Exception as e:
+			result = e
+	else:
+		Calender.objects.filter(event_id = event_id).update(deleted = True)
 		result = "Deleted Successfully"
-	except Exception as e:
-		result = e
 	
 	return HttpResponse(json.dumps({"result": result, "event_id": event_id}), content_type = "application/json")
+
