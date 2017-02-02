@@ -52,6 +52,7 @@ function listUpcomingEvents() {
     'timeMin': (new Date("2017-01-01")).toISOString(),
     'timeMax': (new Date("2017-12-31")).toISOString(),
     'showDeleted': false,
+    'singleEvents': true,
     'orderBy': 'startTime'
   }).then(function(google_response) {
     $.getJSON("alleventsj/", function(db_response) {
@@ -62,19 +63,28 @@ function listUpcomingEvents() {
 
         for (var i = 0; i < db_response_items_num; i++) {
             if (db_response[i]["deleted"] == true) {
-                gapi.client.calendar.events.delete({
-                    'calendarId' : 'primary',
-                    'eventId' : db_response[i]["event_google_id"]
-                }).then(function(data) {
+                try {
+                    gapi.client.calendar.events.delete({
+                        'calendarId' : 'primary',
+                        'eventId' : db_response[i]["event_google_id"]
+                    }).then(function(data) {
+                        $.get("forceDelete/", {eventId: db_response[i]["event_id"]}, function(res) {
+                            console.log("Deleted", res);
+                        });
+                    });
+                } catch(err) {
                     $.get("forceDelete/", {eventId: db_response[i]["event_id"]}, function(res) {
                         console.log("Deleted", res);
                     });
-                })
+                }
             }
         }
 
-        for (var i = 0; i < db_response_items_num.length; i++) {
+        for (var i = 0; i < db_response_items_num; i++) {
+            db_event_id = db_response[i]["event_id"];
             if (db_response[i]["event_google_id"] != "" && db_response[i]["deleted"] == false) {
+
+                console.log("Here");
 
                 var flag = 0;
 
@@ -88,22 +98,24 @@ function listUpcomingEvents() {
                             var start_datetime = db_response[i]["start_date"] + " " + db_response[i]["start_time"];
                             var oldDateObj = new Date(start_datetime);
                             var updated_start_datetime = new Date(oldDateObj.getTime() + 330*60000).valueOf();
-                            updated_start_datetime = updated_start_datetime.substr(0,10);
+                            updated_start_datetime = String(updated_start_datetime).substr(0,10);
 
                             var end_datetime = db_response[i]["end_date"] + " " + db_response[i]["end_time"];
                             oldDateObj = new Date(end_datetime);
                             var updated_end_datetime = new Date(oldDateObj.getTime() + 330*60000).valueOf();
-                            updated_end_datetime = updated_end_datetime.substr(0,10);
+                            updated_end_datetime = String(updated_end_datetime).substr(0,10);
+                            console.log(updated_end_datetime);
 
                             // If db event has been modified after google event, update Google event
                             gapi.client.calendar.events.update({
                                 'calendarId' : 'primary',
                                 'eventId' : google_response[j]["id"],
                                 'summary' : db_response[i]["event_name"],
-                                'start.timeZone' : 'Asia/Kolkata',
+                                'start.timeZone' : 'Asia/Calcutta',
                                 'start.dateTime' : updated_start_datetime,
-                                'end.timeZone' : 'Asia/Kolkata',
+                                'end.timeZone' : 'Asia/Calcutta',
                                 'end.dateTime' : updated_end_datetime,
+                                'end.time' : db_response[i]["end_time"],
                                 'location' : db_response[i]["location"],
                                 'description' : db_response[i]["description"]
                             }).then(function() {
@@ -127,7 +139,7 @@ function listUpcomingEvents() {
 
                                 updated_start_date = year+'-' + month + '-'+ dt;
                                 updated_start_time = hour + ":" + mins;
-                                updated_all_day = false;
+                                updated_all_day = 0;
 
                                 var date = new Date(google_response[j]["end"]["dateTime"]);
                                 var year = date.getFullYear();
@@ -154,7 +166,7 @@ function listUpcomingEvents() {
 
                                 updated_start_date = year+'-' + month + '-'+ dt;
                                 updated_start_time = "";
-                                updated_all_day = true;
+                                updated_all_day = 1;
 
                                 var date = new Date(google_response[j]["end"]["date"]);
                                 var year = date.getFullYear();
@@ -189,51 +201,81 @@ function listUpcomingEvents() {
                 }
             } else if (db_response[i]["event_google_id"] == "") {
                 // If Google ID is blank, add it to google
-
                 if (db_response[i]["all_day"] == true || db_response[i]["start_time"] == "") {
-                    var start_key = "date";
-                    var end_key = "date";
                     var start_value = db_response[i]["start_date"];
-                    var end_value = db_response[i]["end_date"];
+                    var end_date = parseInt(String(db_response[i]["end_date"]).substr(8,2)) + 1;
+                    var end_value = String(db_response[i]["end_date"]).substr(0,8) + String(end_date);
+                    var event = {
+                      'summary': db_response[i]["event_name"],
+                      'location': db_response[i]["location"],
+                      'description': db_response[i]["description"],
+                      'start': {
+                        'date': start_value,
+                        'timeZone': 'Asia/Calcutta'
+                      },
+                      'end': {
+                        'date': end_value,
+                        'timeZone': 'Asia/Calcutta'
+                      },
+                      'attendees': [
+                        {'email': 'lpage@example.com'}
+                      ],
+                      'reminders': {
+                        'useDefault': false,
+                        'overrides': [
+                          {'method': 'email', 'minutes': 24 * 60},
+                          {'method': 'popup', 'minutes': 10}
+                        ]
+                      }
+                    };
                 } else {
-                    var start_key = "dateTime";
-                    var end_key = "dateTime";
-                    var start_value = db_response[i]["start_date"] + "T" + db_response[i]["start_time"];
-                    var end_value = db_response[i]["end_date"] + "T" + db_response[i]["end_time"];
-                }
-
-
-                var event = {
-                  'summary': db_response[i]["event_name"],
-                  'location': db_response[i]["location"],
-                  'description': db_response[i]["description"],
-                  'start': {
-                    start_key: start_value,
-                    'timeZone': 'Asia/Kolkata'
-                  },
-                  'end': {
-                    end_key: end_value,
-                    'timeZone': 'Asia/Kolkata'
-                  },
-                  'attendees': [
-                    {'email': 'lpage@example.com'}
-                  ],
-                  'reminders': {
-                    'useDefault': false,
-                    'overrides': [
-                      {'method': 'email', 'minutes': 24 * 60},
-                      {'method': 'popup', 'minutes': 10}
-                    ]
-                  }
-                };
+                    var start_value = db_response[i]["start_date"] + "T" + db_response[i]["start_time"] + ":00";
+                    var end_date = parseInt(String(db_response[i]["end_date"]).substr(8,2)) + 1;
+                    var end_value = String(db_response[i]["end_date"]).substr(0,8) + String(end_date);
+                    end_value = end_value + "T" + db_response[i]["end_time"] + ":00";
+                    var event = {
+                      'summary': db_response[i]["event_name"],
+                      'location': db_response[i]["location"],
+                      'description': db_response[i]["description"],
+                      'start': {
+                        'dateTime': start_value,
+                        'timeZone': 'Asia/Calcutta'
+                      },
+                      'end': {
+                        'dateTime': end_value,
+                        'timeZone': 'Asia/Calcutta'
+                      },
+                      'attendees': [
+                        {'email': 'anirudhgoel.delhi@gmail.com'}
+                      ],
+                      'reminders': {
+                        'useDefault': false,
+                        'overrides': [
+                          {'method': 'email', 'minutes': 24 * 60},
+                          {'method': 'popup', 'minutes': 10}
+                        ]
+                      }
+                    };
+                }                
 
                 var request = gapi.client.calendar.events.insert({
                   'calendarId': 'primary',
                   'resource': event
                 });
 
-                request.execute(function(event) {
-                  console.log("Event added to Google", event);
+                // console.log(event);
+                try{
+                    request.execute(function(data) {
+                        console.log("Event adding to Google", data);
+                        new_google_id = data["id"];
+                    });
+                } catch(err) {
+                    console.log(err);
+                    break;
+                }
+                console.log(db_event_id);
+                $.get("updateGoogleId/", {eventId: db_event_id, googleId: new_google_id}, function(res) {
+                    console.log("Updated google id added to db", res);
                 });
             }
         }
@@ -255,5 +297,6 @@ function listUpcomingEvents() {
         //   // appendPre('No upcoming events found.');
         // }
     });
+    refreshAllEvents();
   });
 }

@@ -113,3 +113,21 @@ def forceDelete(request):
 		result = "Deleted Successfully"
 	except Exception as e:
 		result = e
+
+	return HttpResponse(json.dumps({"result": result, "event_id": event_id}), content_type = "application/json")
+
+def updateGoogleId(request):
+	event_id = request.GET['eventId']
+	event_google_id = request.GET['googleId']
+
+	try:
+		Calender.objects.filter(event_id = event_id).update(event_google_id = event_google_id)
+		result = "Google ID added"
+	except Exception as e:
+		result = e
+
+	return HttpResponse(json.dumps({"result": result, "event_id": event_id, "google_id": event_google_id}), content_type = "application/json")
+
+def quickstart(request):
+	context = ""
+	return render(request, 'calender/quickstart.html', context)
