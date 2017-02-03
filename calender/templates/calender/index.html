@@ -30,7 +30,8 @@
 				<i class="fa fa-chevron-down" onclick="nextmonth();"></i>&nbsp;&nbsp;&nbsp;&nbsp;
 				<span class="month"></span> <span class="year"></span>
 				<span class="icons-right">
-					<i class="fa fa-refresh" onclick="handleClientLoad();" id="authorize-button"></i>&nbsp;&nbsp;
+					<button id="authorize-button">Sign In</button>
+					<i class="fa fa-refresh" id="sync"></i>&nbsp;&nbsp;
 					<i class="fa fa-gear"></i>&nbsp;&nbsp;&nbsp;
 				</span>
 			</div>
@@ -94,7 +95,9 @@
 		<script src="{% static 'calender/js/calender.js' %}"></script>
 		<script src="{% static 'calender/js/clock.js' %}"></script>
 		<script src="{% static 'calender/js/google_calender.js' %}"></script>
-		<script async defer src="https://apis.google.com/js/api.js">
+		<script async defer src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};handleClientLoad()"
+      onreadystatechange="if (this.readyState === 'complete') this.onload()">
 		</script>
 	</body>
 </html>
