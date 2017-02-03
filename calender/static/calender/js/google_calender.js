@@ -179,7 +179,7 @@ function listUpcomingEvents() {
 	                            var google_response_description = google_response[j]['description'];
 	                            if (!google_response_description) {google_response_description = "";}
 
-	                            $.getJSON("updateEvent/", {eventId: db_response[i]["event_id"], eventName: google_response[j]["summary"], eventLocation: google_response[j]["location"], eventStartDate: updated_start_date, eventStartTime: updated_start_time, eventEndDate: updated_end_date, eventEndTime: updated_end_time, eventAllDay: updated_all_day, eventDescription: google_response_description}, function(data) {
+	                            $.getJSON("updateEvent/", {eventId: db_response[i]["event_id"], eventName: google_response[j]["summary"], eventLocation: google_response_location, eventStartDate: updated_start_date, eventStartTime: updated_start_time, eventEndDate: updated_end_date, eventEndTime: updated_end_time, eventAllDay: updated_all_day, eventDescription: google_response_description}, function(data) {
 	                                console.log(data, "DB data updated");
 	                            });
 	                        }   
@@ -245,9 +245,9 @@ function listUpcomingEvents() {
 	            }
 	        }
 	    }).done(function() {
-	    	for (var k = 0; k < google_response.length; k++) {
-				console.log(1);
-			}
+			// for (var k = 0; k < google_response.length; k++) {
+			// 	insertToDB(google_response, k);
+			// }
 	    });
 
 
@@ -270,7 +270,7 @@ function insertToGoogle(db_response, obj, i) {
 }
 
 function deleteEvent(db_response, i) {
-	console.log(db_response, i);
+	// console.log(db_response, i);
 	if (db_response[i]["deleted"] == true) {
 	    gapi.client.calendar.events.delete({
 	        'calendarId' : 'primary',
@@ -282,3 +282,40 @@ function deleteEvent(db_response, i) {
 	    });
 	}
 }
+
+// function insertToDB(google_response, k) {
+// 	var google_event_id = google_response[k]["id"];
+// 	$.getJSON("googleIdExistsInDB/", {googleId: google_event_id}, function(data) {
+// 		console.log(data);
+// 		if (data["result"] == 0) {
+// 			var eventGoogleId = google_response[k]["id"];
+// 			var eventName = google_response[k]["summary"];
+
+// 			var google_response_location = google_response[k]['location'];
+//             if (!google_response_location) {google_response_location = "";}
+
+//             var google_response_description = google_response[k]['description'];
+//             if (!google_response_description) {google_response_description = "";}
+
+//             if (google_response[k]["start"]["date"]) {
+//             	var start_date = google_response[k]["start"]["date"];
+//             	var start_time = "";
+//             	var end_date = parseInt(String(google_response[k]["end"]["date"]).substr(8, 2)) - 1;
+//             	var end_date = (end_date < 10) ? ("0" + end_date) : end_date;
+//             	var end_date = String(google_response[k]["end"]["date"]).substr(0, 8) + end_date;
+//             	var end_time = "";
+//             	var all_day = 1;
+//             } else if (google_response[k]["start"]["dateTime"]) {
+//             	var start_date = String(google_response[k]["start"]["date"]).substr(0, 10);
+//             	var start_time = String(google_response[k]["start"]["date"]).substr(11, 5);
+//             	var end_date = String(google_response[k]["end"]["date"]).substr(0, 10);
+//             	var end_time = String(google_response[k]["end"]["date"]).substr(11, 5);
+//             	var all_day = 0;
+//             }
+
+// 			$.getJSON("insertEventFromGoogle/", {eventGoogleId: eventGoogleId, eventName: eventName, eventLocation: google_response_location, eventStartDate: start_date, eventStartTime: start_time, eventEndDate: end_date, eventEndTime: end_time, eventAllDay: all_day, eventDescription: google_response_description}, function(res) {
+// 				console.log("Event added from Google to DB", res);
+// 			});
+// 		}
+// 	});
+// }

@@ -131,3 +131,51 @@ def updateGoogleId(request):
 def quickstart(request):
 	context = ""
 	return render(request, 'calender/quickstart.html', context)
+
+def googleIdExistsInDB(request):
+	event_google_id = request.GET['googleId']
+
+	try:
+		q = Calender.objects.filter(event_google_id = event_google_id)
+		count = q.count()
+		if count == 0:
+			event_id = ""
+			result = 0
+		else:
+			q = Calender.objects.get(event_google_id = event_google_id)
+			event_id = q.event_id
+			result = 1
+	except Exception as e:
+		event_id = ""
+		result = e
+
+	return HttpResponse(json.dumps({"result": result, "event_id": event_id}), content_type = "application/json")
+
+
+def insertEventFromGoogle(request):
+	event_google_id = request.GET['eventGoogleId']
+	event_name = request.GET['eventName']
+	location = request.GET['eventLocation']
+	start_date = request.GET['eventStartDate']
+	start_time = request.GET['eventStartTime']
+	end_date = request.GET['eventEndDate']
+	end_time = request.GET['eventEndTime']
+	all_day = request.GET['eventAllDay']
+	description = request.GET['eventDescription']
+	flag = 0
+	id_start = 1
+
+	while flag == 0:
+		if Calender.objects.filter(event_id = (str(id_start) + "-eve-" + start_date)).count() == 1:
+			id_start += 1
+		else:
+			new_event_id = str(id_start) + "-eve-" + start_date
+			flag = 1
+	q = Calender(event_id = new_event_id, event_name = event_name, location = location, start_date = start_date, start_time = start_time, end_date = end_date, end_time = end_time, all_day = all_day, description = description, event_google_id = event_google_id)
+	try:
+		q.save()
+		result = "Saved Successfully"
+	except Exception as e:
+		result = e
+
+	return HttpResponse(json.dumps({"result": result, "event_id": new_event_id}), content_type = "application/json")

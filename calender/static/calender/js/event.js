@@ -98,13 +98,14 @@ function event_rectangle_clicked(event) {
 	event.stopPropagation();
 	closeEveBox(event);
 
-	$(".viewEveBoxName").text(event.srcElement.innerHTML);
+	// console.log(event);
+	$(".viewEveBoxName").text(event.target.innerHTML);
 	var event_id = event.target.id;
 	$("[id=" + event_id + "]").addClass("event-rectangle-select");
 	$("#viewEveBoxEveId").text(event_id);
 	// console.log(event);
 	$.getJSON("viewEvent/", {eventId: event_id}, function(data) {
-		console.log(data);
+		// console.log(data);
 		$(".viewTitle").text(data["event_name"]);
 		$(".viewLocation").text(data["location"]);
 		
