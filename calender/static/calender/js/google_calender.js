@@ -33,6 +33,7 @@ function handleAuthClick(event) {
 }
 
 function listUpcomingEvents() {
+	$(".fa-refresh").addClass("fa-spin");
 	gapi.client.calendar.events.list({
 		'calendarId': 'primary',
 		'timeMin': (new Date("2017-01-01")).toISOString(),
@@ -245,13 +246,11 @@ function listUpcomingEvents() {
 	            }
 	        }
 	    }).done(function() {
+	    	$(".fa-refresh").removeClass("fa-spin");
 			// for (var k = 0; k < google_response.length; k++) {
 			// 	insertToDB(google_response, k);
 			// }
 	    });
-
-
-
 	});
 }
 
