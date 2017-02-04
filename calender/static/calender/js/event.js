@@ -32,11 +32,11 @@ function td_click(event) {
 	var td_left = $("#" + td_id).position().left;
 	var td_width = $("#" + td_id).width();
 	var windowWidth = $(window).width();
-	var eventBoxWidth = 277;
+	var eventBoxWidth = $("#addEvent").width();
 	if (td_left + td_width + eventBoxWidth > windowWidth) {
-		$("#addEvent").show().css({position:"absolute", top:(event.pageY - 160), left: (td_left - eventBoxWidth)});
+		$("#addEvent").show().css({position:"absolute", top:(event.pageY - 120), left: (td_left - eventBoxWidth)});
 	} else {
-		$("#addEvent").show().css({position:"absolute", top:(event.pageY - 160), left: (td_left + td_width + 8)});
+		$("#addEvent").show().css({position:"absolute", top:(event.pageY - 120), left: (td_left + td_width + 8)});
 	}
 };
 
@@ -147,11 +147,11 @@ function event_rectangle_clicked(event) {
 		var parent_td_left = parent_td.position().left;
 		var parent_td_width = parent_td.width();
 		var windowWidth = $(window).width();
-		var eventBoxWidth = 262;
-		if (parent_td_left + parent_td_width + eventBoxWidth > windowWidth) {
-			$("#viewEvent").show().css({position:"absolute", top:(event.pageY - 160), left: (parent_td_left - eventBoxWidth)});
+		var eventBoxWidth = $("#viewEvent").width();
+		if (parent_td_left + parent_td_width + eventBoxWidth + 30 > windowWidth) {
+			$("#viewEvent").show().css({position:"absolute", top:(event.pageY - 120), left: (parent_td_left - eventBoxWidth)});
 		} else {
-			$("#viewEvent").show().css({position:"absolute", top:(event.pageY - 160), left: (parent_td_left + parent_td_width + 8)});
+			$("#viewEvent").show().css({position:"absolute", top:(event.pageY - 120), left: (parent_td_left + parent_td_width + 8)});
 		}
 	});
 
@@ -198,7 +198,11 @@ function editEve(event) {
 
 		closeEveBox(event);
 		$("#" + event_id).addClass("event-rectangle-select");
-		$("#addEvent").show().css({position: "absolute", top: (event.pageY - 375), left: (event.pageX - 220)});
+		if ($(window).width() > 750) {
+			$("#addEvent").show().css({position: "absolute", top: (event.pageY - 375), left: (event.pageX - 220)});
+		} else {
+			$("#addEvent").show().css({position: "absolute", top: (event.pageY - 235), left: (event.pageX - 110)});
+		}
 	});
 }
 

@@ -261,12 +261,6 @@ textarea {
 	font-size: 0.8em;
 }
 
-/*.event-rectangles:hover {
-	background-color: #ff8787;
-	color: white;
-	border-color: #ff8787;
-}*/
-
 .event-rectangle-select {
 	background-color: #ff8787 !important;
 	color: white !important;
@@ -340,15 +334,67 @@ textarea {
 	margin-right: 10px;
 }
 
+#status {
+	background-color: #2bc493;
+}
+
 @media only screen and (max-width: 750px) {
 	#left-bar {
 		display: none;
 	}
 	#right-area {
 		float: none;
+		margin-left: 20px;
 	}
 	.container {
 		padding: 0;
-		width: calc(100% - 40px);
+		width: 80%;
+	}
+	table {
+		width: 90vw;
+	}
+	td {
+		width: 40vw !important;
+		height: 30px;
+	}
+	.weather {
+		display: none;
+	}
+	.event-rectangles {
+		padding-left: 5px;
+		font-size: 0.6em;
+	}
+	.date {
+		font-size: 0.8em;
+	}
+	#addEvent {
+		font-size: 0.6em;
+		width: 150px;
+	}
+	#viewEvent {
+		font-size: 0.7em;
+		width: 140px;
+	}
+	#eventName, #eventLocation {
+		font-size: 1.2em;
+		width: 120px;
+		height: 10px;
+	}
+	#eventStartDate, #eventStartTime, #eventEndDate, #eventEndTime {
+		height: 10px;
+		font-size: 1.2em;
+	}
+	#eventCancelButton, #eventSaveButton, #eventEditButton, #eventDeleteButton {
+		margin-top: 10px;
+		font-size: 0.9em;
+		width: 60px;
+		height: 15px;
+	}
+	#eventDescription {
+		height: 30px;
+	}
+	#authorize-button {
+		position: fixed;
+		left: 10px;
 	}
 }

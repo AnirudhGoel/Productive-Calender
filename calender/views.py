@@ -11,12 +11,6 @@ def index(request):
 	context = ""
 	return render(request, 'calender/index.html', context)
 
-
-def google_cale(request):
-	context = ""
-	return render(request, 'calender/google_cale.html', context)
-
-
 def updateEvent(request):
 	event_id = request.GET['eventId']
 	event_name = request.GET['eventName']
@@ -127,10 +121,6 @@ def updateGoogleId(request):
 		result = e
 
 	return HttpResponse(json.dumps({"result": result, "event_id": event_id, "google_id": event_google_id}), content_type = "application/json")
-
-def quickstart(request):
-	context = ""
-	return render(request, 'calender/quickstart.html', context)
 
 def googleIdExistsInDB(request):
 	event_google_id = request.GET['googleId']

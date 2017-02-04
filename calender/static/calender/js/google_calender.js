@@ -119,7 +119,7 @@ function listUpcomingEvents() {
 
 	                        } else {
 	                        	// If google event has been modified after db event, update db event
-	                        	
+
 	                            if (google_response[j]["start"]["dateTime"]) {
 	                            	// If dateTime parameter is given, it is not a all day event
 	                                var date = new Date(google_response[j]["start"]["dateTime"]);
@@ -252,6 +252,7 @@ function listUpcomingEvents() {
 	        }
 	    }).done(function() {
 	    	$(".fa-refresh").removeClass("fa-spin");
+	    	$("#status").text("Synced");
 	    });
 	});
 }

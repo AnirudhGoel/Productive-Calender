@@ -5,8 +5,6 @@ from . import views
 app_name = 'calender'
 urlpatterns = [
 	url(r'^$', views.index, name='index'),
-	url(r'^quick/', views.quickstart, name='quick'),
-	url(r'^googlecale/', views.google_cale, name='google_cale'),
 	url(r'^updateGoogleId/', views.updateGoogleId, name='updateGoogleId'),
 	url(r'^googleIdExistsInDB/', views.googleIdExistsInDB, name='googleIdExistsInDB'),
 	url(r'^insertEventFromGoogle/', views.insertEventFromGoogle, name='insertEventFromGoogle'),

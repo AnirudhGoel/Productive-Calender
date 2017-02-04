@@ -52,9 +52,6 @@ function calculateWeather() {
 }
 
 function publishWeather(date, month, min_temp, max_temp, icon) {
-    // console.log(date + month);
-    // console.log(Math.round(min_temp));
-    // console.log(Math.round(max_temp));
     min_temp = Math.round(min_temp);
     max_temp = Math.round(max_temp);
     $("<span class='weather'><i class='fa " + icon + "'></i>" + max_temp + "&deg;/<span style='font-size: 0.7em;'>" + min_temp + "&deg;</span></span>").insertAfter("#" + date + month + " .date")
@@ -73,8 +70,7 @@ function currentWeather() {
     });
 }
 
-function toTitleCase(str)
-{
+function toTitleCase(str){
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 

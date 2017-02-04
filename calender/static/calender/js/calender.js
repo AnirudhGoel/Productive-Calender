@@ -70,7 +70,11 @@ function calender(month) {
 
     // Output the calender onto the site.  Also, putting in the month name and days of the week.
     var calenderTable = "<table>";
-    calenderTable += "<tr class='table-header'> <th>Sunday</th> <th>Monday</th> <th>Tuesday</th> <th>Wednesday</th> <th>Thursday</th> <th>Friday</th> <th>Saturday</th> </tr>";
+    if ($(window).width() < 750) {
+        calenderTable += "<tr class='table-header'> <th>Sun</th> <th>Mon</th> <th>Tues</th> <th>Wed</th> <th>Thur</th> <th>Fri</th> <th>Sat</th> </tr>";
+    } else {
+        calenderTable += "<tr class='table-header'> <th>Sunday</th> <th>Monday</th> <th>Tuesday</th> <th>Wednesday</th> <th>Thursday</th> <th>Friday</th> <th>Saturday</th> </tr>";
+    }
     calenderTable += "<tr>";
     calenderTable += padding;
     calenderTable += "</tr></table>";
@@ -122,3 +126,7 @@ if (window.addEventListener) {
     currentWeather();
     refreshAllEvents();
 }
+
+$(window).resize(function() {
+    location.reload();
+})
