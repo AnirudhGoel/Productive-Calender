@@ -87,6 +87,9 @@ function calender(month) {
     $(".year").text(year);
 }
 
+// 
+// Display next month in Calender
+// 
 function nextmonth() {
     if ($(".month").attr('id') != 11) {
         var nextmon = Number($(".month").attr('id')) + 1;
@@ -99,6 +102,9 @@ function nextmonth() {
     refreshAllEvents();
 }
 
+// 
+// Display previous month in Calender
+// 
 function prevmonth() {
     if ($(".month").attr('id') != 0) {
         var prevmon = Number($(".month").attr('id')) - 1;
@@ -111,6 +117,9 @@ function prevmonth() {
     refreshAllEvents();
 }
 
+// 
+// Load calender and weather
+// 
 if (window.addEventListener) {
     var current = new Date();
     cmonth = current.getMonth();
@@ -127,6 +136,10 @@ if (window.addEventListener) {
     refreshAllEvents();
 }
 
+// 
+// Whenever window is resized, page is reloaded so as to change full day names to short names to ensure responsiveness.
+// Eg - Wednesday -> Wed
+// 
 $(window).resize(function() {
     location.reload();
 })

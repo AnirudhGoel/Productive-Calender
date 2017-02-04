@@ -83,6 +83,7 @@ def viewEvent(request):
 	q = Calender.objects.get(event_id = event_id)
 	return HttpResponse(json.dumps({"event_name": q.event_name, "location": q.location, "start_date": q.start_date, "start_time": q.start_time, "end_date": q.end_date, "end_time": q.end_time, "all_day": q.all_day, "description": q.description}), content_type = "application/json")
 
+# Sets event's delete property = true so that later it can be deleted from Google also
 def deleteEvent(request):
 	event_id = request.GET['eventId']
 	q = Calender.objects.get(event_id = event_id)
@@ -99,6 +100,7 @@ def deleteEvent(request):
 	
 	return HttpResponse(json.dumps({"result": result, "event_id": event_id}), content_type = "application/json")
 
+# Deletes event from DB
 def forceDelete(request):
 	event_id = request.GET['eventId']
 

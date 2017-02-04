@@ -22,12 +22,17 @@ function td_click(event) {
 	$("#eventStartDate, #eventStartTime, #eventEndDate, #eventEndTime").attr("disabled", true);
 	$("#eventAllDay").removeClass("fa-square-o").addClass("fa-check-square-o");
 
+	// 
+	// Automatically setting start and end date in New event box
+	// 
 	var td_date = parseInt(td_id);
 	var td_month = td_id.substr(td_date.toString().length);
 	setStartEndDate(td_date, td_month);
 	$(".eveBoxDate").text(td_date + " " + td_month + " " + "2017");
 
-	// console.log($("#" + td_id).width());
+	// 
+	// Displaying new event box at apt location
+	// 
 	$("#" + td_id).append("<div id='justForShowEvent'></div>");
 	var td_left = $("#" + td_id).position().left;
 	var td_width = $("#" + td_id).width();
@@ -38,10 +43,12 @@ function td_click(event) {
 	} else {
 		$("#addEvent").show().css({position:"absolute", top:(event.pageY - 120), left: (td_left + td_width + 8)});
 	}
-};
+}
 
+// 
+// Automatically setting the start and end date of event box's input field
+// 
 function setStartEndDate(date, month) {
-	// Automatically setting the start and end date of event box's input field
 	if (date < 10) {date = "0" + date};
 	month = month_number[month_names.indexOf(month)];
 
@@ -49,8 +56,10 @@ function setStartEndDate(date, month) {
 	$("#eventEndDate").val("2017-" + month + "-" + date);
 }
 
+// 
+// Close new event box and edit event box and remove color from selected event
+// 
 function closeEveBox(e) {
-	// Close new event box and edit event box and remove color from selected event
 	e.preventDefault();
 
 	$("#justForShowEvent").remove();
@@ -59,6 +68,9 @@ function closeEveBox(e) {
 	$("#viewEvent").hide();
 }
 
+// 
+// Check if the event is all day event by checking the Font Awesome Icon state
+// 
 function allDay() {
 	if ($(".fa-check-square-o").length) {
 		$("#eventStartDate, #eventStartTime, #eventEndDate, #eventEndTime").attr("disabled", false);
@@ -69,6 +81,9 @@ function allDay() {
 	}
 }
 
+// 
+// Updating the clicked event
+// 
 function updateEvent(e) {
 	e.preventDefault();
 
@@ -98,10 +113,8 @@ function updateEvent(e) {
 	} else if (eventStartTime == "" && eventEndTime != "") {
 		$("#error").text("Fill both event start and end time");
 	} else {
-		// console.log(eventName, eventLocation, eventStartDate, eventStartTime, eventAllDay);
-
 		$.getJSON("updateEvent/", {eventId: eventId, eventName: eventName, eventLocation: eventLocation, eventStartDate: eventStartDate, eventStartTime: eventStartTime, eventEndDate: eventEndDate, eventEndTime: eventEndTime, eventAllDay: eventAllDay, eventDescription: eventDescription}, function(data) {
-			console.log(data);
+			// console.log(data);
 			$("#status").text(data["result"]);
 			$("#justForShowEvent").remove();
 			$("#addEvent").hide();
@@ -110,7 +123,9 @@ function updateEvent(e) {
 	}
 }
 
-
+// 
+// Display clicked event's details when any event is clicked
+// 
 function event_rectangle_clicked(event) {
 	event.stopPropagation();
 	closeEveBox(event);
@@ -143,7 +158,7 @@ function event_rectangle_clicked(event) {
 		}
 
 		var parent_td = $("#" + event.target.id).parent();
-		console.log(parent_td.width());
+		// console.log(parent_td.width());
 		var parent_td_left = parent_td.position().left;
 		var parent_td_width = parent_td.width();
 		var windowWidth = $(window).width();
@@ -154,9 +169,11 @@ function event_rectangle_clicked(event) {
 			$("#viewEvent").show().css({position:"absolute", top:(event.pageY - 120), left: (parent_td_left + parent_td_width + 8)});
 		}
 	});
-
 }
 
+// 
+// Delete an event
+// 
 function deleteEve(event) {
 	event.preventDefault();
 	event.stopPropagation();
@@ -170,6 +187,9 @@ function deleteEve(event) {
 	});
 }
 
+// 
+// Display Edit event box with clicked event's details when an event is clicked
+// 
 function editEve(event) {
 	event.preventDefault();
 	event.stopPropagation();
@@ -206,19 +226,20 @@ function editEve(event) {
 	});
 }
 
-
+// 
+// Refresh all events
+// 
 function refreshAllEvents() {
-	$(".event-rectangles").remove();
-	$.get("allEvents/", function(data) {
 
+	$(".event-rectangles").remove();
+
+	$.get("allEvents/", function(data) {
 		var event_id_end_date = data.split(" ");
 		var event_list = [];
 		for (var i = 0; i < event_id_end_date.length - 1; i++) {
 			event_list.push({event_id: event_id_end_date[i].split("/")[0], end_date: event_id_end_date[i].split("/")[1]});
 		}
 
-		// console.log(data);
-		// console.log(event_list);
 		for (var i = 0; i < event_list.length; i++) {
 			var eventStartDate = event_list[i]["event_id"].substr(6, 10);
 			var eventEndDate = event_list[i]["end_date"];
@@ -244,6 +265,5 @@ function refreshAllEvents() {
 				}
 			}
 		}
-
 	});
 }

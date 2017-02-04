@@ -9,17 +9,21 @@
 
 		<title>Calender</title>
 
+		<!-- Font Awesome served from CDN -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
 		<link rel="stylesheet" type="text/css" href="{% static 'calender/css/style.css' %}" />
+		<link rel="shortcut icon" href="{% static 'calender/favicon.png' %}">
 	</head>
 	<body>
 		<div id="left-bar">
 			<br><br><br><br><br><br><br><br><br><br>
 			<div id="clock">
+				<!-- To display hour and mins -->
 				<span id="hourmin"></span>
+				<!-- To display AM/PM -->
 				<span id="ap"></span>
 			</div>
-			<br><br><br><br><br><br><br><br>
+			<br><br><br><br><br><br>
 			<span class="weather-heading">Weather</span>
 			<div id="current-weather"></div>
 			<div id="status"></div>
@@ -37,7 +41,7 @@
 			</div>
 			<div class="container"></div>
 
-
+			<!-- Box for adding and updating events -->
 			<div id="addEvent">
 				<span class="eveBoxDate"></span>
 				<span class="eveBoxClose" onclick="closeEveBox(event);">x</span>
@@ -70,6 +74,7 @@
 				</div>
 			</div>
 
+			<!-- Box for viewing events -->
 			<div id="viewEvent">
 				<span class="viewEveBoxName"></span>
 				<span id="viewEveBoxEveId"></span>
@@ -90,6 +95,7 @@
 			</div>
 		</div>
 
+		<!-- jQuery, Weather script, events script, calender creation, clock, google calender sync, google calender check login status on load -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="{% static 'calender/js/weather.js' %}"></script>
 		<script src="{% static 'calender/js/event.js' %}"></script>
@@ -97,12 +103,8 @@
 		<script src="{% static 'calender/js/clock.js' %}"></script>
 		<script src="{% static 'calender/js/google_calender.js' %}"></script>
 		<script async defer src="https://apis.google.com/js/api.js"
-      onload="this.onload=function(){};handleClientLoad()"
-      onreadystatechange="if (this.readyState === 'complete') this.onload()">
+			onload="this.onload=function(){};handleClientLoad()"
+			onreadystatechange="if (this.readyState === 'complete') this.onload()">
 		</script>
 	</body>
 </html>
-
-
-
-<!-- http://web.archive.org/web/20130920105917/http://www.code-sucks.com/code/javascript/template.php?tutorial=basic_calendar.php -->

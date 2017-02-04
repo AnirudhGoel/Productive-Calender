@@ -1,9 +1,12 @@
+// Initializing variables
 var CLIENT_ID = '1058916560306-0oheqaces62v33hn2o9lbvljvmgc40q6.apps.googleusercontent.com';
 var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
 var SCOPES = "https://www.googleapis.com/auth/calendar";
-
 var authorizeButton = document.getElementById('authorize-button');
 
+// 
+// Login on page load
+// 
 function handleClientLoad() {
   gapi.load('client:auth2', initClient);
 }
@@ -24,7 +27,7 @@ function initClient() {
 function updateSigninStatus(isSignedIn) {
 	if (isSignedIn) {
 		authorizeButton.style.display = 'none';
-		$("#sync").attr("onclick","listUpcomingEvents();");
+		$("#sync").attr("onclick","syncCal();");
 	}
 }
 
@@ -32,8 +35,19 @@ function handleAuthClick(event) {
 	gapi.auth2.getAuthInstance().signIn();
 }
 
-function listUpcomingEvents() {
+
+// 
+// Sync step by step
+// 1. Iterate through DB data and delete events from Google Cal, which have been deleted from Local Cal but not from Google Cal
+// 2. Check which DB items haven't been added to Google Cal and add them
+// 3. If event has already been added to Google Cal, check which event has been modified later and sync the other Cal event according to it
+// 
+function syncCal() {
 	$(".fa-refresh").addClass("fa-spin");
+
+	// 
+	// Call all events from Google and DB
+	// 
 	gapi.client.calendar.events.list({
 		'calendarId': 'primary',
 		'timeMin': (new Date("2017-01-01")).toISOString(),
@@ -45,15 +59,20 @@ function listUpcomingEvents() {
 	    $.getJSON("alleventsj/", function(db_response) {
 	        db_response = db_response["response"];
 	        google_response = google_response.result.items;
-	        console.log(db_response, google_response);
 	        db_response_items_num = Object.keys(db_response).length;
+	        // console.log(db_response, google_response);
 
+	        // Delete events from Google Cal, which have been deleted from Local Cal but not from Google Cal
 	        for (var i = 0; i < db_response_items_num; i++) {
 	            deleteEvent(db_response, i);
 	        }
 
 	        for (var i = 0; i < db_response_items_num; i++) {
 	            db_event_id = db_response[i]["event_id"];
+
+	            // 
+	            // Check if event from Local Cal has been added to Google Cal
+	            // 
 	            if (db_response[i]["event_google_id"] != "" && db_response[i]["deleted"] == false) {
 	                var flag = 0;
 	                for (var j = 0; j < google_response.length; j++) {
@@ -64,10 +83,13 @@ function listUpcomingEvents() {
 	                        var oldDateObj = new Date(db_response[i]["updated"]);
 	                        var newDateObj = (new Date(oldDateObj.getTime() - 330*60000)).toISOString();
 
+	                        // 
+	                        // Check which event has been modified later
+                            // If db event has been modified after google event, update Google event
+                            // 
 	                        if (newDateObj > google_response[j]["updated"]) {
-	                            // If db event has been modified after google event, update Google event
 
-	                            console.log("Here", newDateObj);
+	                            // console.log("Here", newDateObj);
 	                            var start_time = db_response[i]["start_time"];
 	                            var end_time = db_response[i]["end_time"];
 
@@ -104,7 +126,7 @@ function listUpcomingEvents() {
 	                                    'description' : db_response[i]["description"]
 	                                };
 	                            }
-	                            console.log(object);
+	                            // console.log(object);
 
 	                            var calendarObject =
 	                            {
@@ -196,7 +218,7 @@ function listUpcomingEvents() {
 	                    });
 	                }
 	            } else if (db_response[i]["event_google_id"] == "") {
-	                // If Google ID is blank, add it to google
+	                // If Google ID is blank, add event to google
 
 	                if (db_response[i]["all_day"] == true || db_response[i]["start_time"] == "" || db_response[i]["end_time"] == "") {
 	                	// If start or end time is not given, add it as an whole day event
@@ -245,7 +267,7 @@ function listUpcomingEvents() {
 	                }
 
 	                current_db_event_id = db_response[i]["event_id"];
-	            	console.log(i);
+	            	// console.log(i);
 
 	            	insertToGoogle(db_response, object, i);
 	            }
@@ -264,7 +286,7 @@ function insertToGoogle(db_response, obj, i) {
 	}).execute(function(data) {
 		console.log("Event adding to Google", data);
 		new_google_id = data["id"];
-    	console.log(i);
+    	// console.log(i);
         $.get("updateGoogleId/", {eventId: db_response[i]["event_id"], googleId: new_google_id}, function(res) {
             console.log("Updated google id added to db", res);
         });
