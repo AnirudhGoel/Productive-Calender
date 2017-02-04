@@ -72,13 +72,14 @@ function listUpcomingEvents() {
 	                            var end_time = db_response[i]["end_time"];
 
 	                            if (start_time == "" || end_time == "" || db_response[i]["all_day"] == true) {
+	                            	// If start or end time is blank, give only date as it is an all day event
 	                                var object = {
 	                                    'end': {
-	                                        'date': db_response[i]["end_date"],//end,
+	                                        'date': db_response[i]["end_date"],
 	                                        'timeZone': 'Asia/Calcutta'
 	                                    },
 	                                    'start': {
-	                                        'date': db_response[i]["start_date"],//start,
+	                                        'date': db_response[i]["start_date"],
 	                                        'timeZone': 'Asia/Calcutta'
 	                                    },
 	                                    'summary' : db_response[i]["event_name"],
@@ -86,15 +87,16 @@ function listUpcomingEvents() {
 	                                    'description' : db_response[i]["description"]
 	                                };
 	                            } else {
+	                            	// If start or end time is not blank, give dateTime
 	                                var end_datetime = db_response[i]["end_date"] + "T" + db_response[i]["end_time"] + ":00";
 	                                var start_datetime = db_response[i]["start_date"] + "T" + db_response[i]["start_time"] + ":00";
 	                                var object = {
 	                                    'end': {
-	                                        'dateTime': end_datetime,//end,
+	                                        'dateTime': end_datetime,
 	                                        'timeZone': 'Asia/Calcutta'
 	                                    },
 	                                    'start': {
-	                                        'dateTime': start_datetime,//start,
+	                                        'dateTime': start_datetime,
 	                                        'timeZone': 'Asia/Calcutta'
 	                                    },
 	                                    'summary' : db_response[i]["event_name"],
@@ -117,9 +119,9 @@ function listUpcomingEvents() {
 
 	                        } else {
 	                        	// If google event has been modified after db event, update db event
-
+	                        	
 	                            if (google_response[j]["start"]["dateTime"]) {
-
+	                            	// If dateTime parameter is given, it is not a all day event
 	                                var date = new Date(google_response[j]["start"]["dateTime"]);
 	                                var year = date.getFullYear();
 	                                var month = date.getMonth()+1;
@@ -150,7 +152,7 @@ function listUpcomingEvents() {
 	                                updated_end_time = hour + ":" + mins;
 	                            
 	                            } else {
-
+	                            	// If date parameter is given, it is an all day event
 	                                var date = new Date(google_response[j]["start"]["date"]);
 	                                var year = date.getFullYear();
 	                                var month = date.getMonth()+1;
@@ -195,7 +197,9 @@ function listUpcomingEvents() {
 	                }
 	            } else if (db_response[i]["event_google_id"] == "") {
 	                // If Google ID is blank, add it to google
+
 	                if (db_response[i]["all_day"] == true || db_response[i]["start_time"] == "" || db_response[i]["end_time"] == "") {
+	                	// If start or end time is not given, add it as an whole day event
 						var object = {
 							'summary': db_response[i]["event_name"],
 							'location': db_response[i]["location"],
@@ -216,6 +220,7 @@ function listUpcomingEvents() {
 							}
 						};
 	                } else {
+	                	// If start or end time is given, add it as a timed event
 	                    var end_datetime = db_response[i]["end_date"] + "T" + db_response[i]["end_time"] + ":00";
 	                    var start_datetime = db_response[i]["start_date"] + "T" + db_response[i]["start_time"] + ":00";
 						var object = {
@@ -247,9 +252,6 @@ function listUpcomingEvents() {
 	        }
 	    }).done(function() {
 	    	$(".fa-refresh").removeClass("fa-spin");
-			// for (var k = 0; k < google_response.length; k++) {
-			// 	insertToDB(google_response, k);
-			// }
 	    });
 	});
 }
@@ -281,40 +283,3 @@ function deleteEvent(db_response, i) {
 	    });
 	}
 }
-
-// function insertToDB(google_response, k) {
-// 	var google_event_id = google_response[k]["id"];
-// 	$.getJSON("googleIdExistsInDB/", {googleId: google_event_id}, function(data) {
-// 		console.log(data);
-// 		if (data["result"] == 0) {
-// 			var eventGoogleId = google_response[k]["id"];
-// 			var eventName = google_response[k]["summary"];
-
-// 			var google_response_location = google_response[k]['location'];
-//             if (!google_response_location) {google_response_location = "";}
-
-//             var google_response_description = google_response[k]['description'];
-//             if (!google_response_description) {google_response_description = "";}
-
-//             if (google_response[k]["start"]["date"]) {
-//             	var start_date = google_response[k]["start"]["date"];
-//             	var start_time = "";
-//             	var end_date = parseInt(String(google_response[k]["end"]["date"]).substr(8, 2)) - 1;
-//             	var end_date = (end_date < 10) ? ("0" + end_date) : end_date;
-//             	var end_date = String(google_response[k]["end"]["date"]).substr(0, 8) + end_date;
-//             	var end_time = "";
-//             	var all_day = 1;
-//             } else if (google_response[k]["start"]["dateTime"]) {
-//             	var start_date = String(google_response[k]["start"]["date"]).substr(0, 10);
-//             	var start_time = String(google_response[k]["start"]["date"]).substr(11, 5);
-//             	var end_date = String(google_response[k]["end"]["date"]).substr(0, 10);
-//             	var end_time = String(google_response[k]["end"]["date"]).substr(11, 5);
-//             	var all_day = 0;
-//             }
-
-// 			$.getJSON("insertEventFromGoogle/", {eventGoogleId: eventGoogleId, eventName: eventName, eventLocation: google_response_location, eventStartDate: start_date, eventStartTime: start_time, eventEndDate: end_date, eventEndTime: end_time, eventAllDay: all_day, eventDescription: google_response_description}, function(res) {
-// 				console.log("Event added from Google to DB", res);
-// 			});
-// 		}
-// 	});
-// }

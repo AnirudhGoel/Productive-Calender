@@ -273,6 +273,14 @@ textarea {
 	border-color: #ff8787 !important;
 }
 
+
+#justForShowEvent {
+	border-radius: 3px;
+	background-color: #ff8787;
+	width: 100%;
+	height: 20px;	
+}
+
 #viewEvent {
 	padding-left: 15px;
 	padding-right: 15px;

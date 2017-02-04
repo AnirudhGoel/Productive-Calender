@@ -1,8 +1,9 @@
+// Initializing variables
 var month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var month_number = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
 var day_name = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-
+// If empty space or weather part of any date is clicked, create new event box
 function td_click(event) {
 	event.stopPropagation();
 	closeEveBox(event);
@@ -12,6 +13,7 @@ function td_click(event) {
 		td_id = event.target.closest("td").id;
 	}
 
+	// Initializing new event box's input field as blank
 	$("#eventName").val("");
 	$("#eventLocation").val("");
 	$("#eventStartTime").val("");
@@ -24,10 +26,22 @@ function td_click(event) {
 	var td_month = td_id.substr(td_date.toString().length);
 	setStartEndDate(td_date, td_month);
 	$(".eveBoxDate").text(td_date + " " + td_month + " " + "2017");
-	$("#addEvent").show().css({position:"absolute", top:event.pageY, left: event.pageX});
+
+	// console.log($("#" + td_id).width());
+	$("#" + td_id).append("<div id='justForShowEvent'></div>");
+	var td_left = $("#" + td_id).position().left;
+	var td_width = $("#" + td_id).width();
+	var windowWidth = $(window).width();
+	var eventBoxWidth = 277;
+	if (td_left + td_width + eventBoxWidth > windowWidth) {
+		$("#addEvent").show().css({position:"absolute", top:(event.pageY - 160), left: (td_left - eventBoxWidth)});
+	} else {
+		$("#addEvent").show().css({position:"absolute", top:(event.pageY - 160), left: (td_left + td_width + 8)});
+	}
 };
 
 function setStartEndDate(date, month) {
+	// Automatically setting the start and end date of event box's input field
 	if (date < 10) {date = "0" + date};
 	month = month_number[month_names.indexOf(month)];
 
@@ -36,8 +50,10 @@ function setStartEndDate(date, month) {
 }
 
 function closeEveBox(e) {
+	// Close new event box and edit event box and remove color from selected event
 	e.preventDefault();
 
+	$("#justForShowEvent").remove();
 	$(".event-rectangles").removeClass("event-rectangle-select");
 	$("#addEvent").hide();
 	$("#viewEvent").hide();
@@ -87,6 +103,7 @@ function updateEvent(e) {
 		$.getJSON("updateEvent/", {eventId: eventId, eventName: eventName, eventLocation: eventLocation, eventStartDate: eventStartDate, eventStartTime: eventStartTime, eventEndDate: eventEndDate, eventEndTime: eventEndTime, eventAllDay: eventAllDay, eventDescription: eventDescription}, function(data) {
 			console.log(data);
 			$("#status").text(data["result"]);
+			$("#justForShowEvent").remove();
 			$("#addEvent").hide();
 			refreshAllEvents();
 		});
@@ -125,7 +142,17 @@ function event_rectangle_clicked(event) {
 			$(".viewDay").text(data["start_time"] + ", " + day + ", " + month + " " + date);
 		}
 
-		$("#viewEvent").show().css({position:"absolute", top:event.pageY, left: event.pageX});
+		var parent_td = $("#" + event.target.id).parent();
+		console.log(parent_td.width());
+		var parent_td_left = parent_td.position().left;
+		var parent_td_width = parent_td.width();
+		var windowWidth = $(window).width();
+		var eventBoxWidth = 262;
+		if (parent_td_left + parent_td_width + eventBoxWidth > windowWidth) {
+			$("#viewEvent").show().css({position:"absolute", top:(event.pageY - 160), left: (parent_td_left - eventBoxWidth)});
+		} else {
+			$("#viewEvent").show().css({position:"absolute", top:(event.pageY - 160), left: (parent_td_left + parent_td_width + 8)});
+		}
 	});
 
 }
@@ -171,7 +198,7 @@ function editEve(event) {
 
 		closeEveBox(event);
 		$("#" + event_id).addClass("event-rectangle-select");
-		$("#addEvent").show().css({position: "absolute", top: (event.pageY - 375), left: (event.pageX - 160)});
+		$("#addEvent").show().css({position: "absolute", top: (event.pageY - 375), left: (event.pageX - 220)});
 	});
 }
 
