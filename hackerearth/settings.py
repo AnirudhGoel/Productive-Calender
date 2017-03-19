@@ -80,6 +80,7 @@ WSGI_APPLICATION = 'hackerearth.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 # The application is connected to PostgreSQL DB using user/role - hackerearth (password="")
 # and database name = 'hackerearth'
+# LOCAL CONFIGURATION
 
 # DATABASES = {
 #     'default': {
