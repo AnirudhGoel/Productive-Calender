@@ -80,10 +80,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'hackerearth',
-        'USER': 'hackerearth',
-        'PASSWORD': '',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
-        'POST': '',
+        'PORT': '',
     }
 }
 
