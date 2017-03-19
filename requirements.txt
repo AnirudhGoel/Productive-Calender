@@ -4,3 +4,4 @@ dj-database-url==0.3.0
 python-decouple==3
 gunicorn==19.7.0
 whitenoise==3.3.0
+dj-static==0.0.6
