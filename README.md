@@ -15,6 +15,7 @@ Most of the calendars currently available online either have a boring UI or if t
 
 ## Screenshots
 <br>
+
 ### Home Page
 
 ![Home Page](calender/static/calender/ss/ss1.png)
