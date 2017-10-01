@@ -14,20 +14,21 @@ Most of the calendars currently available online either have a boring UI or if t
 
 
 ### Screenshots
-![Home Page](calender/static/calender/ss/ss1.png)
+<br><br>
 **Home Page**
-<br><br>
-![Event add](calender/static/calender/ss/ss2.png)
+![Home Page](calender/static/calender/ss/ss1.png)
+<br><br><br>
 **Event addition**
-<br><br>
-![Event view](calender/static/calender/ss/ss3.png)
+![Event add](calender/static/calender/ss/ss2.png)
+<br><br><br>
 **Event viewing**
-<br><br>
-![Multi day event](calender/static/calender/ss/ss4.png)
+![Event view](calender/static/calender/ss/ss3.png)
+<br><br><br>
 **Multi day events are presented in different color**
-<br><br>
-![Comparison](calender/static/calender/ss/ss5.png)
+![Multi day event](calender/static/calender/ss/ss4.png)
+<br><br><br>
 **_For comparison, this is a snap of the Google Calender. You can easily see the UI differences_**
+![Comparison](calender/static/calender/ss/ss5.png)
 
 
 ### Contact
