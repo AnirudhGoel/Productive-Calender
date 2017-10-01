@@ -2,7 +2,7 @@
 
 A Django based application that functions as a complete planner with features like event management, Google Calender Sync, weather details, on-screen clock, responsive design and a elegant UI.
 
-### Motivation
+## Motivation
 
 Most of the calendars currently available online either have a boring UI or if they have a good UI, they don't provide much functionality. So, I built this Productive Calender, which has the following features-
 
@@ -13,21 +13,21 @@ Most of the calendars currently available online either have a boring UI or if t
 - **Elegant UI**<br>Along with providing all the important functionalities, this calender also has a very elegant UI. For comparison, I am adding some screenshots from my Calender and Google Calender.
 
 
-### Screenshots
+## Screenshots
 <br>
-#### Home Page
+### Home Page
 ![Home Page](calender/static/calender/ss/ss1.png)
 <br><br><br>
-#### Event addition
+### Event addition
 ![Event add](calender/static/calender/ss/ss2.png)
 <br><br><br>
-#### Event viewing
+### Event viewing
 ![Event view](calender/static/calender/ss/ss3.png)
 <br><br><br>
-#### Multi day events are presented in different color
+### Multi day events are presented in different color
 ![Multi day event](calender/static/calender/ss/ss4.png)
 <br><br><br>
-#### _For comparison, this is a snap of the Google Calender. You can easily see the UI differences_
+### _For comparison, this is a snap of the Google Calender. You can easily see the UI differences_
 ![Comparison](calender/static/calender/ss/ss5.png)
 
 
