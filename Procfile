@@ -1,1 +1,1 @@
-web: gunicorn hackerearth.wsgi --log-file -
+web: gunicorn productive-calender.wsgi --log-file -
