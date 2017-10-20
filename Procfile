@@ -1,1 +1,1 @@
-web: gunicorn productive-calender.wsgi --log-file -
+web: gunicorn productiveCalender.wsgi --log-file -
