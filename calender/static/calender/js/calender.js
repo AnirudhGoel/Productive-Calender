@@ -14,7 +14,7 @@ function calender(month) {
     var numberOfDays = ["31", String(febDays), "31", "30", "31", "30", "31", "31", "30", "31", "30", "31"];
 
     // Using (month + 1) because this function uses Jan as 1, Feb as 2, so on.
-    var firstDate = new Date((month + 1) + ' 1, ' + currentYear);
+    var firstDate = new Date(monthNames[month] + ' 1, ' + currentYear);
     var firstDay = firstDate.getDay();
     var totalDays = numberOfDays[month];
 
@@ -54,7 +54,6 @@ function calender(month) {
     calenderTable += padding;
     calenderTable += generateCal;
     calenderTable += "</tr></table>";
-
 
     $(".container").html(calenderTable);
     $(".month").text(monthNames[month]);
