@@ -18,22 +18,10 @@ from decouple import config, Csv
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = '2$2t06p2nr_5y@xyi0axekmsbseicdwi0t@54ygf-knoe(*l0j'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-
-# Changes according to https://simpleisbetterthancomplex.com/tutorial/2016/08/09/how-to-deploy-django-applications-on-heroku.html
 SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', cast=bool)
 
-# ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
-ALLOWED_HOSTS = [".herokuapp.com"]
-
+ALLOWED_HOSTS = [".herokuapp.com", "localhost"]
 
 # Application definition
 INSTALLED_APPS = [
@@ -77,24 +65,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'productiveCalender.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-# The application is connected to PostgreSQL DB using user/role - hackerearth (password="")
-# and database name = 'hackerearth'
-# LOCAL CONFIGURATION
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'hackerearth',
-#         'USER': 'postgres',
-#         'PASSWORD': 'password',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
-
-# Changes according to https://simpleisbetterthancomplex.com/tutorial/2016/08/09/how-to-deploy-django-applications-on-heroku.html
 DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL')
@@ -104,7 +74,6 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -123,7 +92,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -137,7 +105,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 STATIC_URL = '/static/'
@@ -146,5 +113,4 @@ STATIC_URL = '/static/'
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
