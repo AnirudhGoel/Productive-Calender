@@ -12,6 +12,7 @@ function td_click(event) {
 	if (td_id == "") {
 		td_id = event.target.closest("td").id;
 	}
+	var year = parseInt($(".year").attr('id'));
 
 	// Initializing new event box's input field as blank
 	$("#eventName").val("");
@@ -28,7 +29,7 @@ function td_click(event) {
 	var td_date = parseInt(td_id);
 	var td_month = td_id.substr(td_date.toString().length);
 	setStartEndDate(td_date, td_month);
-	$(".eveBoxDate").text(td_date + " " + td_month + " " + "2017");
+	$(".eveBoxDate").text(td_date + " " + td_month + " " + year);
 
 	// 
 	// Displaying new event box at apt location
@@ -52,8 +53,8 @@ function setStartEndDate(date, month) {
 	if (date < 10) {date = "0" + date};
 	month = month_number[month_names.indexOf(month)];
 
-	$("#eventStartDate").val("2017-" + month + "-" + date);
-	$("#eventEndDate").val("2017-" + month + "-" + date);
+	$("#eventStartDate").val(year + "-" + month + "-" + date);
+	$("#eventEndDate").val(year + "-" + month + "-" + date);
 }
 
 // 
@@ -214,7 +215,7 @@ function editEve(event) {
 		}
 		var date = parseInt(data["start_date"].substr(8,2));
 		var month = month_names[parseInt(data["start_date"].substr(5,2)) - 1];
-		$(".eveBoxDate").text(date + " " + month + " " + "2017");
+		$(".eveBoxDate").text(date + " " + month + " " + year);
 
 		closeEveBox(event);
 		$("#" + event_id).addClass("event-rectangle-select");
