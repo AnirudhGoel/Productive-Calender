@@ -115,5 +115,9 @@ if (window.addEventListener) {
 // Eg - Wednesday -> Wed
 // 
 $(window).resize(function() {
-    location.reload();
-})
+    if ($(window).width() < 750) {
+        $(".table-header").html("<th>Sun</th> <th>Mon</th> <th>Tues</th> <th>Wed</th> <th>Thur</th> <th>Fri</th> <th>Sat</th>");
+    } else {
+        $(".table-header").html("<th>Sunday</th> <th>Monday</th> <th>Tuesday</th> <th>Wednesday</th> <th>Thursday</th> <th>Friday</th> <th>Saturday</th>");
+    }
+});
