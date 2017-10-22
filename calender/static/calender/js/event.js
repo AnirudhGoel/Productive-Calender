@@ -2,6 +2,7 @@
 var month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var month_number = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
 var day_name = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+var year = parseInt($(".year").attr('id'));
 
 // If empty space or weather part of any date is clicked, create new event box
 function td_click(event) {
@@ -12,7 +13,6 @@ function td_click(event) {
 	if (td_id == "") {
 		td_id = event.target.closest("td").id;
 	}
-	var year = parseInt($(".year").attr('id'));
 
 	// Initializing new event box's input field as blank
 	$("#eventName").val("");
