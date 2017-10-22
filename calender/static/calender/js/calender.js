@@ -1,4 +1,4 @@
-function calender(month) {
+function calender(month, year) {
     var current = new Date();
     var currentMonth = current.getMonth();
     var currentDate = current.getDate();
@@ -14,7 +14,7 @@ function calender(month) {
     var numberOfDays = ["31", String(febDays), "31", "30", "31", "30", "31", "31", "30", "31", "30", "31"];
 
     // Using (month + 1) because this function uses Jan as 1, Feb as 2, so on.
-    var firstDate = new Date(monthNames[month] + ' 1, ' + currentYear);
+    var firstDate = new Date(monthNames[month] + ' 1, ' + year);
     var firstDay = firstDate.getDay();
     var totalDays = numberOfDays[month];
 
@@ -32,7 +32,7 @@ function calender(month) {
             generateCal += "</tr><tr>";
             generateDay = 0;
         }
-        
+
         // Checking to see if i is equal to the current day, if so then we are making the color of that cell a different color using CSS.
         if (i == currentDate && month == currentMonth) {
             generateCal += "<td onclick='td_click(event);' class='currentday' id='" + i + monthNames[month] + "'><span class='date'>" + i + "</span></td>";
@@ -58,20 +58,23 @@ function calender(month) {
     $(".container").html(calenderTable);
     $(".month").text(monthNames[month]);
     $(".month").attr('id', month);
-    $(".year").text(currentYear);
+    $(".year").text(year);
+    $(".year").attr('id', year);
 }
 
 // 
 // Display next month in Calender
 // 
-function nextmonth() {
+function nextMonth() {
     if ($(".month").attr('id') != 11) {
-        var nextmon = Number($(".month").attr('id')) + 1;
+        var nextMon = Number($(".month").attr('id')) + 1;
+        var year = Number($(".year").attr('id'));
     } else {
-        var nextmon = 0;
+        var nextMon = 0;
+        var year = Number($(".year").attr('id')) + 1;
     }
     // console.log(nextmon);
-    calender(nextmon);
+    calender(nextMon, year);
     calculateWeather();
     refreshAllEvents();
 }
@@ -79,14 +82,16 @@ function nextmonth() {
 // 
 // Display previous month in Calender
 // 
-function prevmonth() {
+function prevMonth() {
     if ($(".month").attr('id') != 0) {
-        var prevmon = Number($(".month").attr('id')) - 1;
+        var prevMon = Number($(".month").attr('id')) - 1;
+        var year = Number($(".year").attr('id'));
     } else {
-        var prevmon = 11;
+        var prevMon = 11;
+        var year = Number($(".year").attr('id')) - 1;
     }
     // console.log(prevmon);
-    calender(prevmon);
+    calender(prevMon, year);
     calculateWeather();
     refreshAllEvents();
 }
@@ -96,15 +101,17 @@ function prevmonth() {
 // 
 if (window.addEventListener) {
     var current = new Date();
-    cmonth = current.getMonth();
-    calender(cmonth);
+    cMonth = current.getMonth();
+    cYear = current.getFullYear();
+    calender(cMonth, cYear);
     calculateWeather();
     currentWeather();
     refreshAllEvents();
 } else if (window.attachEvent) {
     var current = new Date();
-    cmonth = current.getMonth();
-    calender(cmonth);
+    cMonth = current.getMonth();
+    cYear = current.getFullYear();
+    calender(cMonth, cYear);
     calculateWeather();
     currentWeather();
     refreshAllEvents();
