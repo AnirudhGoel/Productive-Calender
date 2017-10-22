@@ -1,8 +1,9 @@
+var current = new Date();
+var currentMonth = current.getMonth();
+var currentDate = current.getDate();
+var currentYear = current.getFullYear();
+
 function calender(month, year) {
-    var current = new Date();
-    var currentMonth = current.getMonth();
-    var currentDate = current.getDate();
-    var currentYear = current.getFullYear();
     var padding = "";
 
     // Determining if Feb has 28 or 29 days
@@ -100,18 +101,12 @@ function prevMonth() {
 // Load calender and weather
 // 
 if (window.addEventListener) {
-    var current = new Date();
-    cMonth = current.getMonth();
-    cYear = current.getFullYear();
-    calender(cMonth, cYear);
+    calender(currentMonth, currentYear);
     calculateWeather();
     currentWeather();
     refreshAllEvents();
 } else if (window.attachEvent) {
-    var current = new Date();
-    cMonth = current.getMonth();
-    cYear = current.getFullYear();
-    calender(cMonth, cYear);
+    calender(currentMonth, currentYear);
     calculateWeather();
     currentWeather();
     refreshAllEvents();
