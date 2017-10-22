@@ -3,6 +3,7 @@ var CLIENT_ID = '1058916560306-0oheqaces62v33hn2o9lbvljvmgc40q6.apps.googleuserc
 var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
 var SCOPES = "https://www.googleapis.com/auth/calendar";
 var authorizeButton = document.getElementById('authorize-button');
+var year = $(".year").attr('id');
 
 // 
 // Login on page load
@@ -50,8 +51,8 @@ function syncCal() {
 	// 
 	gapi.client.calendar.events.list({
 		'calendarId': 'primary',
-		'timeMin': (new Date("2017-01-01")).toISOString(),
-		'timeMax': (new Date("2017-12-31")).toISOString(),
+		'timeMin': (new Date(year + "-01-01")).toISOString(),
+		'timeMax': (new Date(year + "-12-31")).toISOString(),
 		'showDeleted': false,
 		'singleEvents': true,
 		'orderBy': 'startTime'
