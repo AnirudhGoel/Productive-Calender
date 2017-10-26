@@ -3,20 +3,63 @@ var weatherDesc = ["clear sky", "few clouds", "scattered clouds", "broken clouds
 var weatherDescIcon = ["fa-sun-o", "fa-cloud", "fa-cloud", "fa-cloud", "fa-cloud", "fa-cloud", "fa-bolt", "fa-bolt", "fa-cloud"];
 
 function calculateWeather() {
-    // Initializing variables to be used later
+    // Trying to detect location
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, error);
+
+        function showPosition(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            console.log(lat, lon);
+
+            $.getJSON("getLocation/", {latitude: lat, longitude: lon}, function(data) {
+                var location = data.location;
+                calMinMaxWeather(location);
+            });
+        }
+
+        function error() {
+            calMinMaxWeather("delhi");    
+        }
+    } else {
+        // If location detection is not supported, setting default location as Delhi.
+        calMinMaxWeather("delhi");
+    }
+}
+
+// Publishing min and max temperature in each calender date box
+function publishWeather(date, month, min_temp, max_temp, icon) {
+    min_temp = Math.round(min_temp);
+    max_temp = Math.round(max_temp);
+    $("<span class='weather'><i class='fa " + icon + "'></i>" + max_temp + "&deg;/<span style='font-size: 0.7em;'>" + min_temp + "&deg;</span></span>").insertAfter("#" + date + month + " .date")
+}
+
+// Publishing current weather in left bar
+function currentWeather() {
+    var key = "3dd5f9b1129b6750622c736c66971a45";
+    var url = "http://api.openweathermap.org/data/2.5/forecast?q=bangaluru,in&appid=" + key;
+    $.get(url, function(data) {
+        var cweather = Number(data['list'][0]['main']['temp']);
+        cweather = Math.round(toCelsius(cweather));
+        var weaDesc = data['list'][0]['weather'][0]['description'];
+        var weaDescIcon = weatherDescIcon[weatherDesc.indexOf(weaDesc)];
+        $("#current-weather").html("<span class='current-weather-big'><i class='fa " + weaDescIcon + "'></i>  " + cweather + "&deg;<span style='font-size: 0.6em;'>C</span></span>");
+        $("#current-weather").append("<br><span style='font-size: 0.8em; padding-left: 25px;'>" + toTitleCase(weaDesc) + "</style>");
+    });
+}
+
+function calMinMaxWeather(location) {
+    // Initializing variables
     var flag = 0;
     var old_max_temp = 0;
     var new_max_temp = 0;
     var old_min_temp = 0;
     var new_min_temp = 0;
-    var key = "3dd5f9b1129b6750622c736c66971a45";
-    var url = "http://api.openweathermap.org/data/2.5/forecast?q=bangaluru,in&appid=" + key;
     var old_date = 00;
     var short_month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     var full_month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-
-    $.get(url, function(data) {
+    $.getJSON("weather/", {location: location}, function(data) {
         var weaDesc = data['list'][0]['weather'][0]['description'];
         var weaDescIcon = weatherDescIcon[weatherDesc.indexOf(weaDesc)];
 
@@ -49,27 +92,6 @@ function calculateWeather() {
                 flag = 1;
             }
         }
-    });
-}
-
-// Publishing min and max temperature in each calender date box
-function publishWeather(date, month, min_temp, max_temp, icon) {
-    min_temp = Math.round(min_temp);
-    max_temp = Math.round(max_temp);
-    $("<span class='weather'><i class='fa " + icon + "'></i>" + max_temp + "&deg;/<span style='font-size: 0.7em;'>" + min_temp + "&deg;</span></span>").insertAfter("#" + date + month + " .date")
-}
-
-// Publishing current weather in left bar
-function currentWeather() {
-    var key = "3dd5f9b1129b6750622c736c66971a45";
-    var url = "http://api.openweathermap.org/data/2.5/forecast?q=bangaluru,in&appid=" + key;
-    $.get(url, function(data) {
-        var cweather = Number(data['list'][0]['main']['temp']);
-        cweather = Math.round(toCelsius(cweather));
-        var weaDesc = data['list'][0]['weather'][0]['description'];
-        var weaDescIcon = weatherDescIcon[weatherDesc.indexOf(weaDesc)];
-        $("#current-weather").html("<span class='current-weather-big'><i class='fa " + weaDescIcon + "'></i>  " + cweather + "&deg;<span style='font-size: 0.6em;'>C</span></span>");
-        $("#current-weather").append("<br><span style='font-size: 0.8em; padding-left: 25px;'>" + toTitleCase(weaDesc) + "</style>");
     });
 }
 

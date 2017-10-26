@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.utils import timezone
 import json
+import requests
 
 from .models import Calender
 
@@ -143,7 +144,6 @@ def googleIdExistsInDB(request):
 
 	return HttpResponse(json.dumps({"result": result, "event_id": event_id}), content_type = "application/json")
 
-
 def insertEventFromGoogle(request):
 	event_google_id = request.GET['eventGoogleId']
 	event_name = request.GET['eventName']
@@ -171,3 +171,40 @@ def insertEventFromGoogle(request):
 		result = e
 
 	return HttpResponse(json.dumps({"result": result, "event_id": new_event_id}), content_type = "application/json")
+
+
+def getLocation(request):
+	latitude = request.GET['latitude']
+	longitude = request.GET['longitude']
+	google_key = "AIzaSyDUIK7sIVpOXkhSovCbmfH9Tem3errVF6E"
+	location = ""
+
+	reverse_geocode_url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&sensor=false&key=" + google_key
+
+	data = requests.get(reverse_geocode_url)
+	data = data.json()
+	location = "delhi"
+
+	if data["status"] == "OK":
+		for i in range(0, len(data["results"][0]["address_components"])):
+			try: 
+				data["results"][0]["address_components"][i]["types"].index("locality")
+				location = data["results"][0]["address_components"][i]["long_name"]
+				print("inside loop")
+				print(location)
+				break
+			except:
+				pass
+
+	return HttpResponse(json.dumps({"location": location}), content_type = "application/json")
+
+
+def weather(request):
+	location = request.GET['location']
+
+	key = "3dd5f9b1129b6750622c736c66971a45";
+	url = "http://api.openweathermap.org/data/2.5/forecast?q=" + location + ",in&appid=" + key;
+
+	weather_data = requests.get(url)
+
+	return HttpResponse(weather_data, content_type = "application/json")

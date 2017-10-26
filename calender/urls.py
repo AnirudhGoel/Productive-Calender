@@ -14,4 +14,6 @@ urlpatterns = [
 	url(r'^deleteEvent/$', views.deleteEvent, name='deleteEvent'),
 	url(r'^forceDelete/$', views.forceDelete, name='forceDelete'),
 	url(r'^allEvents/$', views.allEvents, name='allEvents'),
+	url(r'^weather/$', views.weather, name='weather'),
+	url(r'^getLocation/$', views.getLocation, name='getLocation'),
 ]
