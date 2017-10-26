@@ -103,12 +103,10 @@ function prevMonth() {
 if (window.addEventListener) {
     calender(currentMonth, currentYear);
     calculateWeather();
-    currentWeather();
     refreshAllEvents();
 } else if (window.attachEvent) {
     calender(currentMonth, currentYear);
     calculateWeather();
-    currentWeather();
     refreshAllEvents();
 }
 

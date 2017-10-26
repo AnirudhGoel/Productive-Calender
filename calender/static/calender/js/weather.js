@@ -31,21 +31,17 @@ function calculateWeather() {
 function publishWeather(date, month, min_temp, max_temp, icon) {
     min_temp = Math.round(min_temp);
     max_temp = Math.round(max_temp);
-    $("<span class='weather'><i class='fa " + icon + "'></i>" + max_temp + "&deg;/<span style='font-size: 0.7em;'>" + min_temp + "&deg;</span></span>").insertAfter("#" + date + month + " .date")
+    $("<span class='weather'><i class='fa " + icon + "'></i>" + max_temp + "&deg;/<span style='font-size: 0.7em;'>" + min_temp + "&deg;</span></span>").insertAfter("#" + date + month + " .date");
 }
 
 // Publishing current weather in left bar
-function currentWeather() {
-    var key = "3dd5f9b1129b6750622c736c66971a45";
-    var url = "http://api.openweathermap.org/data/2.5/forecast?q=bangaluru,in&appid=" + key;
-    $.get(url, function(data) {
-        var cweather = Number(data['list'][0]['main']['temp']);
-        cweather = Math.round(toCelsius(cweather));
-        var weaDesc = data['list'][0]['weather'][0]['description'];
-        var weaDescIcon = weatherDescIcon[weatherDesc.indexOf(weaDesc)];
-        $("#current-weather").html("<span class='current-weather-big'><i class='fa " + weaDescIcon + "'></i>  " + cweather + "&deg;<span style='font-size: 0.6em;'>C</span></span>");
-        $("#current-weather").append("<br><span style='font-size: 0.8em; padding-left: 25px;'>" + toTitleCase(weaDesc) + "</style>");
-    });
+function currentWeather(data) {
+    var cweather = Number(data['list'][0]['main']['temp']);
+    cweather = Math.round(toCelsius(cweather));
+    var weaDesc = data['list'][0]['weather'][0]['description'];
+    var weaDescIcon = weatherDescIcon[weatherDesc.indexOf(weaDesc)];
+    $("#current-weather").html("<span class='current-weather-big'><i class='fa " + weaDescIcon + "'></i>  " + cweather + "&deg;<span style='font-size: 0.6em;'>C</span></span>");
+    $("#current-weather").append("<br><span style='font-size: 0.8em; padding-left: 25px;'>" + toTitleCase(weaDesc) + "</style>");
 }
 
 function calMinMaxWeather(location) {
@@ -60,6 +56,8 @@ function calMinMaxWeather(location) {
     var full_month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     $.getJSON("weather/", {location: location}, function(data) {
+        currentWeather(data);
+
         var weaDesc = data['list'][0]['weather'][0]['description'];
         var weaDescIcon = weatherDescIcon[weatherDesc.indexOf(weaDesc)];
 
