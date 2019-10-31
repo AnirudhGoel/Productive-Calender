@@ -39,4 +39,4 @@ Most of the calendars currently available online either have a boring UI or if t
 
 ### Contact
 
-You can [Anirudh Goel](http://anirudhgoel.me) via this [contact form](https://anirudhgoel.typeform.com/to/LUFqDL).
+You can contact [Anirudh Goel](http://anirudhgoel.me) via this [contact form](https://anirudhgoel.typeform.com/to/LUFqDL).
