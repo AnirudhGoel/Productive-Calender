@@ -32,7 +32,7 @@ Most of the calendars currently available online either have a boring UI or if t
 
 ![Multi day event](calender/static/calender/ss/ss4.png)
 <br><br><br>
-### _For comparison, this is a snap of the Google Calender. You can easily see the UI differences_
+### _For comparison, this is a snap of the Google Calendar. You can easily see the UI differences_
 
 ![Comparison](calender/static/calender/ss/ss5.png)
 
