@@ -7,9 +7,8 @@ import requests
 from .models import Calender
 
 
-
 def index(request):
-	context = ""
+	context = {}
 	return render(request, 'calender/index.html', context)
 
 def updateEvent(request):
@@ -38,7 +37,7 @@ def updateEvent(request):
 			result = "Saved Successfully"
 		except Exception as e:
 			result = e
-	
+
 	else:
 		new_event_id = event_id
 		try:
@@ -98,7 +97,7 @@ def deleteEvent(request):
 	else:
 		Calender.objects.filter(event_id = event_id).update(deleted = True)
 		result = "Deleted Successfully"
-	
+
 	return HttpResponse(json.dumps({"result": result, "event_id": event_id}), content_type = "application/json")
 
 # Deletes event from DB
@@ -187,7 +186,7 @@ def getLocation(request):
 
 	if data["status"] == "OK":
 		for i in range(0, len(data["results"][0]["address_components"])):
-			try: 
+			try:
 				data["results"][0]["address_components"][i]["types"].index("locality")
 				location = data["results"][0]["address_components"][i]["long_name"]
 				print("inside loop")
