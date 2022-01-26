@@ -1,4 +1,4 @@
-# :date: Productive Calendar
+# :date:  Productive Calendar
 
 A Django based application that functions as a complete planner with features like event management, Google Calendar Sync, weather details, on-screen clock, responsive design and a elegant UI.
 
