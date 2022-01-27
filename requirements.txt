@@ -12,5 +12,5 @@ pytz==2021.3
 requests==2.20.0
 sqlparse==0.4.2
 static3==0.7.0
-urllib3==1.24.3
+urllib3==1.26.5
 whitenoise==5.0
