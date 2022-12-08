@@ -1,5 +1,5 @@
 asgiref==3.5.0
-certifi==2021.10.8
+certifi==2022.12.7
 chardet==3.0.4
 dj-database-url==0.3.0
 dj-static==0.0.6
